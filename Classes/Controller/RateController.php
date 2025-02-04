@@ -125,7 +125,7 @@ class RateController extends ActionController
      */
     public function buildSettings()
     {
-        $tsSettings = $this->request->getAttribute->getConfiguration(
+        $tsSettings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
             'bc_simplerate',
             'bc_simplerate_pi1'
