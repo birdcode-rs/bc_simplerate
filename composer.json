@@ -45,7 +45,7 @@
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "bc-simplerate",
+            "extension-key": "bc_simplerate",
             "app-dir": ".Build",
             "web-dir": ".Build/Web"
         }
