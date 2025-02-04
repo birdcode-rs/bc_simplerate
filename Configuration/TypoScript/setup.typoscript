@@ -1,0 +1,104 @@
+# ==============================================
+# FE-Plugin configuration for EXT:bc_simplerate
+# ==============================================
+plugin.tx_bcsimplerate {
+    view {
+        templateRootPaths.0 = EXT:bc_simplerate/Resources/Private/Templates/
+        templateRootPaths.1 = {$plugin.tx_bcsimplerate.view.templateRootPath}
+        partialRootPaths.0 = EXT:bc_simplerate/Resources/Private/Partials/
+        partialRootPaths.1 = {$plugin.tx_bcsimplerate.view.partialRootPath}
+        layoutRootPaths.0 = EXT:bc_simplerate/Resources/Private/Layouts/
+        layoutRootPaths.1 = {$plugin.tx_bcsimplerate.view.layoutRootPath}
+    }
+    persistence {
+        storagePid = {$plugin.tx_bcsimplerate.persistence.storagePid}
+    }
+    features {
+        #skipDefaultArguments = 1 
+        ignoreAllEnableFieldsInBe = 0 
+        requireCHashArgumentForActionArguments = 1
+    }
+    mvc {
+        callDefaultActionIfActionCantBeResolved = 1
+    }
+
+    settings {
+        cookiename = {$plugin.tx_bcsimplerate.settings.cookiename}
+        rId = {$plugin.tx_bcsimplerate.settings.rId}
+        rTable = {$plugin.tx_bcsimplerate.settings.rTable}
+        maxRateNumber = {$plugin.tx_bcsimplerate.settings.maxRateNumber}
+        rateIconHtml = {$plugin.tx_bcsimplerate.settings.rateIconHtml}
+        submitButtonIconHtml = {$plugin.tx_bcsimplerate.settings.submitButtonIconHtml}
+        thanksRatingIconHtml = {$plugin.tx_bcsimplerate.settings.thanksRatingIconHtml}
+        ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
+        reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
+        noRatingsLabel = {$plugin.tx_bcsimplerate.settings.noRatingsLabel}
+        thanksRatingLabel = {$plugin.tx_bcsimplerate.settings.thanksRatingLabel}
+        storage = {$plugin.tx_bcsimplerate.settings.storage}
+    }
+}
+ 
+ratePage = PAGE
+ratePage {
+	typeNum = 20250302
+
+	10 < tt_content.list.20.bcsimplerate_pi1
+	10.settings <= plugin.tx_bcsimplerate.settings
+
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/plain; charset=UTF-8
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+		no_cache = 1
+	}
+}
+
+# Rendering of content elements in detail view
+lib.bc_simplerate.contentElementRendering = RECORDS
+lib.bc_simplerate.contentElementRendering {
+	tables = tt_content
+	source.current = 1
+	dontCheckPid = 1
+}
+
+lib.bc_simplerate.contentElementRenderingOverride = RECORDS 
+lib.bc_simplerate.contentElementRenderingOverride {
+    tables = tt_content
+    source.cObject = TEXT
+    source.cObject.field = contentUids
+}
+ 
+page.includeCSS.ratingInternal = EXT:bc_simplerate/Resources/Public/Css/Internal.css
+page.includeJSFooterlibs.cookie = EXT:bc_simplerate/Resources/Public/JavaScript/jquery.cookie.js
+page.includeJSFooterlibs.cookie.forceOnTop = 1
+page.includeJSFooterlibs.cookie.disableCompression = 1
+page.includeJSFooterlibs.cookie.excludeFromConcatenation = 1
+page.includeJSFooterlibs.cookie.async = 1
+page.includeJSFooterlibs.cookie.defer = 1 
+page.includeJSFooterlibs.simplerate = EXT:bc_simplerate/Resources/Public/JavaScript/functions.js
+ 
+lib.ratePlugin = USER_INT
+lib.ratePlugin {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = BcSimplerate
+    pluginName = Pi1
+    vendorName = Bc
+
+    settings < plugin.tx_bcsimplerate.settings
+    settings {
+        cropMaxCharacters = 200
+        rId.cObject = TEXT
+        rId.cObject.field = recordid
+        rTable.cObject = TEXT
+        rTable.cObject.field = tablename
+        storage.cObject = TEXT
+        storage.cObject.field = storage
+        cookiename.cObject = TEXT
+        cookiename.cObject.field = cookieName
+        #useStdWrap =recordid,tablename,pid
+        useStdWrap = rId,rTable,cookiename,storage
+        overrideFlexformSettingsIfEmpty := addToList(rId,rTable,cookiename,storage)
+    }
+}

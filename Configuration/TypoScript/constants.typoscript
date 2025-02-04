@@ -1,0 +1,42 @@
+
+plugin.tx_bcsimplerate {
+    view {
+        # cat=plugin.tx_bcsimplerate/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:bc_simplerate/Resources/Private/Templates/
+        # cat=plugin.tx_bcsimplerate/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:bc_simplerate/Resources/Private/Partials/
+        # cat=plugin.tx_bcsimplerate/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:bc_simplerate/Resources/Private/Layouts/
+    }
+    persistence {
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Default storage PID
+        storagePid = 
+    }
+    settings {
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Cookiename
+        cookiename = 
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Record id
+        rId = 
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Recod belong to table
+        rTable =
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Maximum rate number
+        maxRateNumber = 5
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Rate icon HTML
+        rateIconHtml = <svg width="46" height="42" viewBox="0 0 46 42" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="heart" d="M20.336 38.238l-.001-.002C14.393 32.874 9.54 28.49 6.163 24.376 2.796 20.277 1 16.573 1 12.59 1 6.074 6.112 1 12.65 1c3.702 0 7.27 1.72 9.593 4.414l.757.878.757-.878C26.081 2.72 29.648 1 33.35 1 39.888 1 45 6.074 45 12.589c0 3.984-1.797 7.688-5.163 11.787-3.378 4.113-8.23 8.498-14.172 13.86l-.001.002L23 40.65l-2.664-2.413z" stroke="#36563D" stroke-width="2" fill="currentColor"/></svg>
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Submit button icon HTML
+        submitButtonIconHtml =  🦅
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Thanks for rating message close icon
+        thanksRatingIconHtml = <svg role="button" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 13L13 1M1 1L13 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=ratingLabel
+        ratingLabel = Rate now:
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=reviewsLabel
+        reviewsLabel = Feedback
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=noRatingsLabel
+        noRatingsLabel = Be the first to leave a review
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=thanksRatingLabel
+        thanksRatingLabel = Thanks for sharing your feedback!
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=storage
+        storage = 1
+    }
+}

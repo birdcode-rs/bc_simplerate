@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2025-02-03T18:52:18Z" product-name="bc_simplerate">
+        <header/>
+        <body>
+			<trans-unit id="tx_bcsimplerate_pi1.title" resname="tx_bcsimplerate_pi1.title">
+				<source>Rate it</source>
+			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_pi1.description" resname="tx_bcsimplerate_pi1.description">
+				<source>Rate any record</source>
+			</trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2025-02-03T18:52:18Z" product-name="bc_simplerate">
+		<header/>
+		<body>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate" resname="tx_bcsimplerate_domain_model_rate">
+				<source>Rate</source>
+			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.rate" resname="tx_bcsimplerate_domain_model_rate.rate">
+				<source>Rate Number</source>
+			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.recordid" resname="tx_bcsimplerate_domain_model_rate.recordid">
+				<source>Record Id</source>
+			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.tablename" resname="tx_bcsimplerate_domain_model_rate.tablename">
+				<source>Table name</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
