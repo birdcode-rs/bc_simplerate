@@ -15,9 +15,10 @@ declare(strict_types=1);
 namespace BirdCode\BcSimplerate\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
@@ -27,7 +28,7 @@ use BirdCode\BcSimplerate\Domain\Model\Rate;
 /**
  * RateController.
  */
-class RateController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class RateController extends ActionController
 {
     /**
      * Original settings without any magic done by stdWrap and skipping empty values.
@@ -39,28 +40,21 @@ class RateController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /** @var RateRepository */
     public $rateRepository = null;
 
-    /** @var ConfigurationManagerInterface */
-    protected $configurationManager;
-
-    /** @var PersistenceManager */
-    protected $persistenceManager;
-
+    protected PersistenceManager $persistenceManager;
+ 
     /**
      * __construct.
      *
      * @param RateRepository rateRepository
-     * @param ConfigurationManagerInterface configurationManager
      * @param PersistenceManager persistenceManager
      *
      * @return void
      */
     public function __construct(
         RateRepository $rateRepository,
-        ConfigurationManagerInterface $configurationManager,
-        PersistenceManager $persistenceManager
+        PersistenceManager $persistenceManager,
     ) {
-        $this->rateRepository = $rateRepository;
-        $this->configurationManager = $configurationManager;
+        $this->rateRepository = $rateRepository; 
         $this->persistenceManager = $persistenceManager;
     }
 
@@ -131,7 +125,7 @@ class RateController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function buildSettings()
     {
-        $tsSettings = $this->configurationManager->getConfiguration(
+        $tsSettings = $this->request->getAttribute->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
             'bc_simplerate',
             'bc_simplerate_pi1'
