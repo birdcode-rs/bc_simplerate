@@ -1,45 +1,86 @@
-<f:variable name="rate">{bcsr:renderRatingVote(tablename: settings.rTable, recordid:settings.rId, cookiename:settings.cookiename, storage:settings.storage)}</f:variable>
- 
-<div class="rating-system" id="simple-rate">
-    <div class="simplerate_wrapper">
-        <span class="simplerate_text">{settings.ratingLabel}</span>
-        <div class="simplerate_main">
-
-            {f:variable(name: 'disabledB', value: '')}
-            <f:if condition="{rate.rate}">{f:variable(name: 'disabledB', value: 'disabled')}</f:if>
- 
-            <f:form action="rateIt" method="post" name="rate" object="{rate}" objectName="rate" class="simplerate_form js-send-rate {f:if(condition: '{rate.rate}', then: 'pointer-events-none', else: 'not-rated')}" 
-                controller="Rate" pluginName="Pi1" pageType="20250302" extensionName="BcSimplerate" enctype="multipart/form-data">
+<f:if condition="{settings.view} == 'listview'">
+    <f:then>
+        <f:variable name="rateResult">{bcsr:renderRateResult(recordid:settings.rId, tablename:settings.rTable, storage:settings.storage)}</f:variable>
+        <f:if condition="{rateResult}">
+            <f:then>
+                <span class="rate-results">{rateResult.roundedResult}/{settings.maxRateNumber}</span>
+                <svg width="46" height="42" viewBox="0 0 46 42" style="color: #106c54">
+                    <use href="{f:uri.image(src: 'EXT:bc_simplerate/Resources/Public/Images/bc-simple-rate-heart.svg', treatIdAsReference: 1)}#heart"></use>
+                </svg>
+            </f:then>
+            <f:else>
+                <svg width="46" height="42" viewBox="0 0 46 42" style="color: #a47f48;">
+                    <use href="{f:uri.image(src: 'EXT:bc_simplerate/Resources/Public/Images/bc-simple-rate-heart.svg', treatIdAsReference: 1)}#heart"></use>
+                </svg>
+            </f:else>
+        </f:if>
+    </f:then>
+    <f:else if="{settings.view} == 'detailview'">
+        <f:variable name="rateResult">{bcsr:renderRateResult(recordid:settings.rId, tablename:settings.rTable, storage:settings.storage)}</f:variable>
+        <f:if condition="{rateResult}">
+            <f:then>
+                <div class="rating_record">
+                    <div class="data_rating" data-rating="{rateResult.roundedResult}"></div>
+                    <div class="rating_record-data">
+                        <span class="average_rating"><strong>{rateResult.roundedResult}/{settings.maxRateNumber}</strong></span>
+                        <div class="rating_count">({rateResult.numberOfRates} {settings.reviewsLabel->f:format.raw()})</div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="rating_record">
+                    <div class="data_rating" data-rating="0"></div>
+                    <div class="rating_record-data">
+                        <span class="no-rate">{settings.rate.noRatingsLabel->f:format.raw()}</span>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+    </f:else>
+    <f:else>
+        <f:variable name="rate">{bcsr:renderRatingVote(recordid:settings.rId, tablename: settings.rTable, cookiename:settings.cookiename, storage:settings.storage)}</f:variable>
+        <div class="rating-system" id="simple-rate">
+            <div class="simplerate_wrapper">
+                <span class="simplerate_text">{settings.ratingLabel}</span>
+                <div class="simplerate_main">
+        
+                    {f:variable(name: 'disabledB', value: '')}
+                    <f:if condition="{rate.rate}">{f:variable(name: 'disabledB', value: 'disabled')}</f:if>
          
-                <f:form.hidden property="tablename" value="{settings.rTable}" />
-                <f:form.hidden property="recordid" value="{settings.rId}" />
-                <f:form.hidden property="pid" value="{settings.storage}" />
-                <f:form.hidden name="cookieName" value="{settings.cookiename}" />
-              
-                <fieldset>
-                    <div class="simplerate_form-col js-send-rate-col">
-                        <f:for each="{settings.generateRating}" as="item" iteration="i" reverse="true">
-                            <f:form.radio id="rating-{item}" property="rate" value="{item}" additionalAttributes="{'data-rating':item}"/>
-                            <label for="rating-{item}" title="{item} stars">
-                                {settings.rateIconHtml -> f:format.raw()}
-                            </label>    
-                        </f:for>
+                    <f:form action="rateIt" method="post" name="rate" object="{rate}" objectName="rate" class="simplerate_form js-send-rate {f:if(condition: '{rate.rate}', then: 'pointer-events-none', else: 'not-rated')}" 
+                        controller="Rate" pluginName="Pi1" pageType="20250302" extensionName="BcSimplerate" enctype="multipart/form-data">
+                 
+                        <f:form.hidden property="tablename" value="{settings.rTable}" />
+                        <f:form.hidden property="recordid" value="{settings.rId}" />
+                        <f:form.hidden property="pid" value="{settings.storage}" />
+                        <f:form.hidden name="cookieName" value="{settings.cookiename}" />
+                      
+                        <fieldset>
+                            <div class="simplerate_form-col js-send-rate-col">
+                                <f:for each="{settings.generateRating}" as="item" iteration="i" reverse="true">
+                                    <f:form.radio id="rating-{item}" property="rate" value="{item}" additionalAttributes="{'data-rating':item}"/>
+                                    <label for="rating-{item}" title="{item} stars">
+                                        {settings.rateIconHtml -> f:format.raw()}
+                                    </label>    
+                                </f:for>
+                            </div>
+                        </fieldset>
+         
+                        <fieldset>
+                            <div class="simplerate_form-col {f:if(condition: '{rate.rate}', then: 'rated', else: 'not-rated')}">
+                                <f:form.button type="submit" class="simplerate_submit js-send-rate-submit" disabled='{disabledB}'>
+                                    {settings.submitButtonIconHtml -> f:format.raw()}
+                                </f:form.button>
+                            </div>
+                        </fieldset>
+                    </f:form>
+                    
+                    <div class="simplerate_success">
+                        <span>{settings.thanksRatingLabel -> f:format.raw()}</span>
+                        {settings.thanksRatingIconHtml -> f:format.raw()}
                     </div>
-                </fieldset>
- 
-                <fieldset>
-                    <div class="simplerate_form-col {f:if(condition: '{rate.rate}', then: 'rated', else: 'not-rated')}">
-                        <f:form.button type="submit" class="simplerate_submit js-send-rate-submit" disabled='{disabledB}'>
-                            {settings.submitButtonIconHtml -> f:format.raw()}
-                        </f:form.button>
-                    </div>
-                </fieldset>
-            </f:form>
-            
-            <div class="simplerate_success">
-                <span>{settings.thanksRatingLabel -> f:format.raw()}</span>
-                {settings.thanksRatingIconHtml -> f:format.raw()}
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </f:else>
+</f:if>

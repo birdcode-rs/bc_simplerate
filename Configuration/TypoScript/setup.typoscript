@@ -81,6 +81,7 @@ lib.ratePlugin {
 
     settings < plugin.tx_bcsimplerate.settings
     settings {
+        view = form
         cropMaxCharacters = 200
         rId.cObject = TEXT
         rId.cObject.field = recordid
@@ -95,3 +96,9 @@ lib.ratePlugin {
         overrideFlexformSettingsIfEmpty := addToList(rId,rTable,cookiename,storage)
     }
 }
+
+lib.ratePluginRateResultsDetailView < lib.ratePlugin
+lib.ratePluginRateResultsDetailView.settings.view = detailview
+
+lib.ratePluginRateResultsListView < lib.ratePlugin
+lib.ratePluginRateResultsListView.settings.view = listview
