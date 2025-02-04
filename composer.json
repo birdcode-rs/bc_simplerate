@@ -1,5 +1,5 @@
 {
-    "name": "bc/bc-simplerate",
+    "name": "birdcode/bc-simplerate",
     "type": "typo3-cms-extension",
     "description": "Include rate feature for any record",
     "keywords": [
@@ -26,20 +26,22 @@
         "typo3/cms-frontend": "^12.4.2",
         "typo3/cms-fluid": "^12.4.2"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./packages/*"
-        }
-    ],
     "autoload": {
         "psr-4": {
-            "Bc\\BcSimplerate\\": "Classes"
+            "BirdCode\\BcSimplerate\\": "Classes"
         }
     },
     "replace": {
-        "bc-simplerate": "self.version",
         "typo3-ter/bc-simplerate": "self.version"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin",
+        "lock": false,
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        }
     },
     "extra": {
         "typo3/cms": {

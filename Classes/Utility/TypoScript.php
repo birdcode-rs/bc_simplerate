@@ -11,7 +11,7 @@
  *
  ***/
 
-namespace Bc\BcSimplerate\Utility;
+namespace BirdCode\BcSimplerate\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

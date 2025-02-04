@@ -62,13 +62,6 @@ lib.bc_simplerate.contentElementRendering {
 	source.current = 1
 	dontCheckPid = 1
 }
-
-lib.bc_simplerate.contentElementRenderingOverride = RECORDS 
-lib.bc_simplerate.contentElementRenderingOverride {
-    tables = tt_content
-    source.cObject = TEXT
-    source.cObject.field = contentUids
-}
  
 page.includeCSS.ratingInternal = EXT:bc_simplerate/Resources/Public/Css/Internal.css
 page.includeJSFooterlibs.cookie = EXT:bc_simplerate/Resources/Public/JavaScript/jquery.cookie.js
@@ -84,7 +77,7 @@ lib.ratePlugin {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = BcSimplerate
     pluginName = Pi1
-    vendorName = Bc
+    vendorName = BirdCode
 
     settings < plugin.tx_bcsimplerate.settings
     settings {

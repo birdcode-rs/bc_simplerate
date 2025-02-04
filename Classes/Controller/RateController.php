@@ -12,7 +12,7 @@ declare(strict_types=1);
  *
  ***/
 
-namespace Bc\BcSimplerate\Controller;
+namespace BirdCode\BcSimplerate\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -20,9 +20,9 @@ use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use Psr\Http\Message\ResponseInterface;
 
-use Bc\BcSimplerate\Domain\Repository\RateRepository;
-use Bc\BcSimplerate\Utility\TypoScript;
-use Bc\BcSimplerate\Domain\Model\Rate;
+use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
+use BirdCode\BcSimplerate\Utility\TypoScript;
+use BirdCode\BcSimplerate\Domain\Model\Rate;
 
 /**
  * RateController.

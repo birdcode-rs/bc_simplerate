@@ -11,7 +11,7 @@
  *
  ***/
 
-namespace Bc\BcSimplerate\Domain\Model;
+namespace BirdCode\BcSimplerate\Domain\Model;
  
 /**
  * Rate.

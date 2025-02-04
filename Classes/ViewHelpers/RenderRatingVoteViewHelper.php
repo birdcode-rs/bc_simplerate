@@ -12,15 +12,15 @@ declare(strict_types=1);
  *
  ***/
 
-namespace Bc\BcSimplerate\ViewHelpers;
+namespace BirdCode\BcSimplerate\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use Bc\BcSimplerate\Domain\Repository\RateRepository;
+use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 
 /**
  * Class RenderRateResultViewHelper
  *
- * @package Bc\BcSimplerate\ViewHelpers
+ * @package BirdCode\BcSimplerate\ViewHelpers
  */
 class RenderRatingVoteViewHelper extends AbstractViewHelper
 {
