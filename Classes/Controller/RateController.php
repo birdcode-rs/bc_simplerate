@@ -63,7 +63,7 @@ class RateController extends ActionController
      *
      * @return void
      */
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->buildSettings();
     }
