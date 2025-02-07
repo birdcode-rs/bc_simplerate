@@ -60,6 +60,9 @@ $(document).ready(function() {
          
         if (parseInt(form.attr('data-rated')) > 0 && $noteFormFieldRequired == true && $noteFormField.length && $noteFormField.val().trim() === '') {
             $noteFormField.addClass('required-field');
+            $noteFormField.on('change', function(){
+                $noteFormField.removeClass('required-field');
+            });
             return false;
         } else if ($noteFormField.hasClass('required-field')) {
             $noteFormField.removeClass('required-field');
@@ -92,10 +95,13 @@ $(document).ready(function() {
                         // data.ratingResults.result
                         // data.ratingResults.roundedResult
                         // data.ratingResults.numberOfRates
-                        if (data.ratingResults) {
+                        if (data.ratingResults && $(".rating_record-data .rating_count").length) {
                             $('.rating_count').text($('.rating_count').text().replace($('.rating_count').text().match(/\d+/)[0], data.ratingResults.numberOfRates));
                             $('.average_rating strong').text($('.average_rating strong').text().replace($('.average_rating strong').text().match(/\d+/)[0], data.ratingResults.roundedResult));
                             $('.data_rating').attr('data-rating', data.ratingResults.roundedResult);
+                        } else {
+                            $('.data_rating').attr('data-rating', data.ratingResults.roundedResult);
+                            $(".rating_record-data").html('<div class="rating_record-data"><span class="average_rating"><strong>'+data.ratingResults.roundedResult+'/'+5+'</strong></span></div>');
                         }
 
                         $cookieAddNewValue = data.recordId + "|" + data.rate;
