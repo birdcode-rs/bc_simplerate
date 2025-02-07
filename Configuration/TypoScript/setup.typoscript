@@ -11,7 +11,8 @@ plugin.tx_bcsimplerate {
         layoutRootPaths.1 = {$plugin.tx_bcsimplerate.view.layoutRootPath}
     }
     persistence {
-        storagePid = {$plugin.tx_bcsimplerate.persistence.storagePid}
+        # we are not using storage, bcs we can store data on the rootpage
+        #storagePid = {$plugin.tx_bcsimplerate.persistence.storagePid}
     }
     features {
         #skipDefaultArguments = 1 
@@ -23,6 +24,12 @@ plugin.tx_bcsimplerate {
     }
 
     settings {
+        ### labels
+        ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
+        reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
+        noRatingsLabel = {$plugin.tx_bcsimplerate.settings.noRatingsLabel}
+        thanksRatingLabel = {$plugin.tx_bcsimplerate.settings.thanksRatingLabel}
+
         cookiename = {$plugin.tx_bcsimplerate.settings.cookiename}
         rId = {$plugin.tx_bcsimplerate.settings.rId}
         rTable = {$plugin.tx_bcsimplerate.settings.rTable}
@@ -30,11 +37,13 @@ plugin.tx_bcsimplerate {
         rateIconHtml = {$plugin.tx_bcsimplerate.settings.rateIconHtml}
         submitButtonIconHtml = {$plugin.tx_bcsimplerate.settings.submitButtonIconHtml}
         thanksRatingIconHtml = {$plugin.tx_bcsimplerate.settings.thanksRatingIconHtml}
-        ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
-        reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
-        noRatingsLabel = {$plugin.tx_bcsimplerate.settings.noRatingsLabel}
-        thanksRatingLabel = {$plugin.tx_bcsimplerate.settings.thanksRatingLabel}
         storage = {$plugin.tx_bcsimplerate.settings.storage}
+
+        feature {
+            noteFieldEnabled = {$plugin.tx_bcsimplerate.settings.feature.noteFieldEnabled}
+            noteFieldRequired = {$plugin.tx_bcsimplerate.settings.feature.noteFieldRequired}
+            noteFieldLabel = {$plugin.tx_bcsimplerate.settings.feature.noteFieldLabel} 
+        }
     }
 }
  

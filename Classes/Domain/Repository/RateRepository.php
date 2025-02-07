@@ -41,19 +41,18 @@ class RateRepository extends Repository
         $query = $this->createQuery();
 
         $query->getQuerySettings()->setRespectStoragePage(false);
-        $query->getQuerySettings()->setIgnoreEnableFields(true);
-
+        
         if (isset($uid)) {
-            $constraints[] = $query->equals('recordid', (int) $uid);
+            $constraints[] = $query->equals('recordid', $uid);
         }
         if (isset($tablename)) {
-            $constraints[] = $query->equals('tablename', (string) $tablename);
+            $constraints[] = $query->equals('tablename', $tablename);
         }
         if (isset($pid)) {
-            $constraints[] = $query->equals('pid', (int) $pid);
+            $constraints[] = $query->equals('pid', $pid);
         }
 
-        $constraints[] = $query->greaterThan('rate', (int) 0);
+        $constraints[] = $query->greaterThan('rate', 0);
 
         $query->matching($query->logicalAnd(...$constraints));
 
@@ -77,19 +76,18 @@ class RateRepository extends Repository
         $query = $this->createQuery();
 
         $query->getQuerySettings()->setRespectStoragePage(false);
-        $query->getQuerySettings()->setIgnoreEnableFields(true);
 
         if (isset($uid)) {
-            $constraints[] = $query->equals('recordid', (int) $uid);
+            $constraints[] = $query->equals('recordid', $uid);
         }
         if (isset($tablename)) {
-            $constraints[] = $query->equals('tablename', (string) $tablename);
+            $constraints[] = $query->equals('tablename', $tablename);
         }
         if (isset($ratedNumber)) {
-            $constraints[] = $query->equals('rate', (int) $ratedNumber);
+            $constraints[] = $query->equals('rate', $ratedNumber);
         }
         if (isset($pid)) {
-            $constraints[] = $query->equals('pid', (int) $pid);
+            $constraints[] = $query->equals('pid', $pid);
         }
 
         $query->matching($query->logicalAnd(...$constraints));

@@ -31,13 +31,13 @@
                 <div class="rating_record">
                     <div class="data_rating" data-rating="0"></div>
                     <div class="rating_record-data">
-                        <span class="no-rate">{settings.rate.noRatingsLabel->f:format.raw()}</span>
+                        <span class="no-rate">{settings.noRatingsLabel->f:format.raw()}</span>
                     </div>
                 </div>
             </f:else>
         </f:if>
     </f:else>
-    <f:else>
+    <f:else if="{blockRating} == 0">
         <f:variable name="rate">{bcsr:renderRatingVote(recordid:settings.rId, tablename: settings.rTable, cookiename:settings.cookiename, storage:settings.storage)}</f:variable>
         <div class="rating-system" id="simple-rate">
             <div class="simplerate_wrapper">
@@ -64,6 +64,13 @@
                                     </label>    
                                 </f:for>
                             </div>
+                            
+                            <f:if condition="{settings.feature.noteFieldEnabled}">
+                                <div class="simplerate_form-col note-field-wrap" data-required="{settings.feature.noteFieldRequired}">
+                                    <label>{settings.feature.noteFieldLabel} <f:if condition="{settings.feature.noteFieldRequired}">*</f:if></label>
+                                    <f:form.textarea property="note" rows="2" cols="2" />
+                                </div>
+                            </f:if>
                         </fieldset>
          
                         <fieldset>
@@ -73,10 +80,12 @@
                                 </f:form.button>
                             </div>
                         </fieldset>
+
+                        
                     </f:form>
                     
                     <div class="simplerate_success">
-                        <span>{settings.thanksRatingLabel -> f:format.raw()}</span>
+                        <span data-label="{settings.thanksRatingLabel -> f:format.raw()}"></span>
                         {settings.thanksRatingIconHtml -> f:format.raw()}
                     </div>
                 </div>

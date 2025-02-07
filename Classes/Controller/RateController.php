@@ -91,23 +91,71 @@ class RateController extends ActionController
      */
     public function rateItAction(Rate $rate = null): ResponseInterface
     {
+
+
         if ($rate !== null) {
+            // validate if note feature is enable and active
+            if (null !== ($this->settings['feature']) && is_array(($this->settings['feature'])) && $this->settings['feature']['noteFieldEnabled'] && $this->settings['feature']['noteFieldRequired']) {
+                if (empty(trim($rate->getNote()))) {
+                    return $this->jsonResponse(
+                        json_encode(
+                            [
+                                'status' => 'error', 
+                                'message' => 'missing_req_field_data',
+                            ]
+                        )
+                    );
+                }
+                if (null === ($rate->getNote())) {
+                    return $this->jsonResponse(
+                        json_encode(
+                            [
+                                'status' => 'error', 
+                                'message' => 'missing_req_field',
+                            ]
+                        )
+                    );
+                }
+            }
 
             $this->rateRepository->add($rate);
             $this->persistenceManager->persistAll();
             $currentRecordId = $rate->getRecordId();
 
+            // Call the viewhelper to render the voting data.
+            $getInstanceRRVH = new (GeneralUtility::makeInstance('BirdCode\\BcSimplerate\\ViewHelpers\\RenderRateResultViewHelper'));
+            $getInstanceRRVH->setArguments(['recordid' => $rate->getRecordId(), 'tablename' => $rate->getTablename(), 'storage' => $rate->getPid()]);
+            $getInstanceRRVH->injectRateRepository($this->rateRepository);
+   
             return $this->jsonResponse(
                 json_encode(
                     [
-                        'status' => 'success', 
+                        'status' => 'success',
+                        'message' => 'ok',
                         'rate' => $rate->getRate(), 
-                        'recordId' => $currentRecordId
+                        'recordId' => $currentRecordId,
+                        'ratingResults' => $getInstanceRRVH->render()
                     ]
                 )
             );
         }
 
+        /* *
+        * Block to render the form if the user attempts to remove the note field, which may be required
+        */
+        $this->view->assign('blockRating', 0);    
+        if (isset($_COOKIE["blockRateFor60"])) {
+            $this->view->assign('blockRating', 1);    
+        }
+
+        /**
+         * This cookie is set to prevent the user from submitting the form twice.
+         * If an error occurs on the front-end and the cookie is still active, it should be removed from the system after a refresh.
+         * */
+        if (isset($_COOKIE["tmpBcRateCookie"])) {
+            setcookie('tmpBcRateCookie');
+        }
+ 
         $this->view->assign('rate', $rate);
         return $this->htmlResponse();
     }

@@ -41,6 +41,14 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $tablename = '';
 
 
+    /**
+     * note.
+     *
+     * @var string
+     */
+    protected $note = '';
+
+
      /**
      * get rate.
      *
@@ -107,5 +115,27 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->tablename = $tablename;
     }
- 
+
+    /**
+     * get note.
+     *
+     * @return string $note
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * set note.
+     *
+     * @param string $note
+     *
+     * @return void
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+
 }

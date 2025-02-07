@@ -10,10 +10,13 @@
 				<source>Rate Number</source>
 			</trans-unit>
 			<trans-unit id="tx_bcsimplerate_domain_model_rate.recordid" resname="tx_bcsimplerate_domain_model_rate.recordid">
-				<source>Record Id</source>
+				<source>Record ID</source>
 			</trans-unit>
 			<trans-unit id="tx_bcsimplerate_domain_model_rate.tablename" resname="tx_bcsimplerate_domain_model_rate.tablename">
 				<source>Table name</source>
+			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.note" resname="tx_bcsimplerate_domain_model_rate.note">
+				<source>Note</source>
 			</trans-unit>
 		</body>
 	</file>

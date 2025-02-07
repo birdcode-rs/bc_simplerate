@@ -75,7 +75,7 @@ class RenderRateResultViewHelper extends AbstractViewHelper
         $storage = $this->arguments['storage'];
         $response = [];
 
-        $results = $this->rateRepository->findRecordByIdAndTablename((int) $recordid, (string) $tablename, (int) $storage);
+        $results = $this->rateRepository->findRecordByIdAndTablename((int) $recordid, $tablename, (int) $storage);
 
         if (is_array($results) && !empty($results)) {
             $i = count($results);
@@ -84,11 +84,11 @@ class RenderRateResultViewHelper extends AbstractViewHelper
             foreach ($results as $key => $result) {
                 (int) $rates += (int) $result->getRate();
             }
- 
+            
             $roundedResult = round($rates / $i * 2, 0) / 2;
 
             $response = [
-                'result' => $result,
+                'result' => $rates / $i,
                 'roundedResult' => $roundedResult,
                 'numberOfRates' => $i,
             ];

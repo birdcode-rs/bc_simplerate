@@ -118,8 +118,41 @@ span.no-rate {
 .simplerate_success {
     cursor: pointer;
 }
-[data-label] {
+[data-label]:after {
     content: attr(data-label);
+}
+.pointer-events-none .note-field-wrap {
+    display: none !important;
+}
+.note-field-wrap {
+    position: relative;
+}
+.simplerate_form>fieldset {
+    position: relative;
+}
+.simplerate_form-col.note-field-wrap {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    width: 100%;
+    flex-direction: column;
+}
+.simplerate_form .note-field-wrap:not(.active) {
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+}
+.simplerate_form .note-field-wrap label {
+    color: #000;
+    width: calc(100% - 10px);
+    height: auto;
+    background: #fff;
+    position: absolute;
+    left: 10px;
+    top: -5px;
+}
+.simplerate_form .note-field-wrap textarea {
+    text-align: left !important;
+    font-size: 14px;
 }
 
 @media screen and (min-width: 520px) {
