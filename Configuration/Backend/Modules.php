@@ -12,6 +12,7 @@ return [
         'access' => 'user',
         'workspaces' => 'live',
         'path' => '/module/page/bc_simplerate',
+		'iconIdentifier' => 'ext-bc-simplerate-module-administration',
         'labels' => 'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf',
         'extensionName' => 'BcSimplerate',
         'controllerActions' => [
