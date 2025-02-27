@@ -1,0 +1,11 @@
+
+module.tx_bcsimplerate {
+  view {
+    # cat=module.tx_bcsimplerate/file; type=string; label=Path to template root (BE)
+    templateRootPath = EXT:bc_simplerate/Resources/Private/Templates/Backend/
+    # cat=module.tx_bcsimplerate/file; type=string; label=Path to template partials (BE)
+    partialRootPath = EXT:bc_simplerate/Resources/Private/Partials/
+    # cat=module.tx_bcsimplerate/file; type=string; label=Path to template layouts (BE)
+    layoutRootPath = EXT:bc_simplerate/Resources/Private/Layouts/Backend/
+  }
+}
