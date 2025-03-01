@@ -65,10 +65,9 @@ class AdministrationRepository
         }
   
         $result->from($this->tablename)
-        ->groupBy("tablename", "recordid", "pid")
-        ->executeQuery();
+        ->groupBy("tablename", "recordid", "pid");
 
-        return $result->fetchAllAssociative();
+        return $result->executeQuery()->fetchAllAssociative();
     }
 
     private function getConnection(string $table): Connection
