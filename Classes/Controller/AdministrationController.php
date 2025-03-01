@@ -29,6 +29,7 @@ namespace BirdCode\BcSimplerate\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use BirdCode\BcSimplerate\Domain\Model\Dto\EmConfiguration;
 use BirdCode\BcSimplerate\Domain\Model\Rate; 
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use BirdCode\BcSimplerate\Domain\Repository\AdministrationRepository;
@@ -44,8 +45,12 @@ use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Extensionmanager\Utility\EmConfUtility;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
+
 
 /**
  * The backend controller for the BcSimplerate extension
@@ -60,6 +65,9 @@ class AdministrationController extends ActionController
     /** @var RateRepository */
     protected $rateRepository;
 
+    /** @var EmConfiguration */
+    protected $emConfiguration;
+ 
     public function injectAdministrationRepository(AdministrationRepository $administrationRepository)
     {
         $this->administrationRepository = $administrationRepository;
@@ -77,14 +85,8 @@ class AdministrationController extends ActionController
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly IconFactory $iconFactory,
         private readonly LanguageServiceFactory $languageServiceFactory,
-       
     ) {}
 
- 
-    public function addButtons(ButtonBar $buttonBar): void
-    {
-         
-    }
 
     /**
      * @return array<string,scalar>|false
@@ -97,37 +99,99 @@ class AdministrationController extends ActionController
             $permissionClause,
         );
     }
-
+    
     /**
      * Function will be called before every other action
      */
     protected function initializeAction(): void
     {
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+        $this->emConfiguration = GeneralUtility::makeInstance(EmConfiguration::class);
     }
 
     /**
      * Index action for this controller
      */
     public function indexAction(int $currentPage = 1): ResponseInterface
-    {
+    {   
         $view = $this->initializeModuleTemplate($this->request);
-        $allAvailableRates = $this->rateRepository->findAll();
-        $paginator = new QueryResultPaginator(
-            $allAvailableRates,
-            $currentPage,
-            3,
-        );
-        $pagination = new SimplePagination($paginator);
+        
+        $filterCriteria = ['tablename' => ($this->request->getQueryParams()['filtertable'] ?? '')];
+        $filterOrderBy = ['uid' => 'DESC'];
+
+        if (($this->request->getQueryParams()['filtertable'] ?? '') == '') {
+            $filterCriteria = [];
+        }
+
+        $allAvailableRates = $this->rateRepository->findBy($filterCriteria, $filterOrderBy);
+
+        if ($allAvailableRates) {
+            $paginator = new QueryResultPaginator(
+                $allAvailableRates,
+                $currentPage,
+                $this->emConfiguration->getPaginateItemsPerPage(),
+            );
+            $pagination = new SimplePagination($paginator);
+
+            $view->assignMultiple([
+                'rates' => $allAvailableRates,
+                'paginator' => $paginator,
+                'paginatorItems' => $paginator->getPaginatedItems(),
+                'pagination' => $pagination,
+                'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+            ]);
+        }
 
         $view->assignMultiple([
-            'rates' => $allAvailableRates,
-            'paginator' => $paginator,
-            'pagination' => $pagination,
-            'pages' => range(1, $pagination->getLastPageNumber()),
+            'actionName' => str_replace("Action", "", __FUNCTION__),
+            'currentPage' => $currentPage,
+            'generateFilter' => $this->administrationRepository->generateFilter($this->pageUid),
+            'filtertable' =>  (string)($this->request->getQueryParams()['filtertable'] ?? ''),
         ]);
 
-        return $view->renderResponse('Index');
+        return $view->renderResponse('Backend/Index');
+    }
+
+    /**
+     * Filter action for this controller
+     */
+    public function ratingResultsAction(int $currentPage = 1): ResponseInterface
+    {
+        $view = $this->initializeModuleTemplate($this->request);
+        $filterCriteria = 'tablename = "' .  ($this->request->getQueryParams()['filtertable'] ?? '') .'"';
+        $filterOrderBy = ['roundrate', 'DESC'];
+
+        if (($this->request->getQueryParams()['filtertable'] ?? '') == '') {
+            $filterCriteria = '';
+        }
+ 
+        $allAvailableRates = $this->administrationRepository->roundedResults($this->pageUid, $filterCriteria, $filterOrderBy);
+ 
+        if ($allAvailableRates) {
+            $paginator = new ArrayPaginator(
+                $allAvailableRates,
+                $currentPage,
+                $this->emConfiguration->getPaginateItemsPerPage(),
+            );
+            $pagination = new SimplePagination($paginator);
+
+            $view->assignMultiple([
+                'rates' => $allAvailableRates,
+                'paginator' => $paginator,
+                'paginatorItems' => $paginator->getPaginatedItems(),
+                'pagination' => $pagination,
+                'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+            ]);
+        }
+ 
+        $view->assignMultiple([
+            'actionName' => str_replace("Action", "", __FUNCTION__),
+            'currentPage' => $currentPage,
+            'generateFilter' => $this->administrationRepository->generateFilter($this->pageUid),
+            'filtertable' =>  (string)($this->request->getQueryParams()['filtertable'] ?? '')
+        ]);
+ 
+        return $view->renderResponse('Backend/RatingResults');
     }
  
     /**
@@ -153,10 +217,7 @@ class AdministrationController extends ActionController
     {
         $menu = $this->buildMenu($view, $context);
         $view->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
-
-        $buttonBar = $view->getDocHeaderComponent()->getButtonBar();
-        $this->addButtons($buttonBar);
-
+ 
         $metaInformation = $this->getMetaInformation();
         if (is_array($metaInformation)) {
             $view->getDocHeaderComponent()->setMetaInformation($metaInformation);
@@ -174,7 +235,12 @@ class AdministrationController extends ActionController
             'index' => [
                 'controller' => 'Administration',
                 'action' => 'index',
-                'label' => $this->getLanguageService()->sL('LLL:EXT:bc_simplerate/Resources/Private/Language/locallang.xlf:administration.menu.index'),
+                'label' => $this->getLanguageService()->sL('LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.menu.index'),
+            ],
+            'ratingresults' => [
+                'controller' => 'Administration',
+                'action' => 'ratingResults',
+                'label' => $this->getLanguageService()->sL('LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.menu.ratingResults'),
             ],
         ];
 

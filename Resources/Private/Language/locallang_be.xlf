@@ -9,6 +9,12 @@
 			<trans-unit id="tx_bcsimplerate_pi1.description" resname="tx_bcsimplerate_pi1.description">
 				<source>Rate any record</source>
 			</trans-unit>
+			<trans-unit id="extmng.showAdminModule" xml:space="preserve">
+				<source>Show administration Rate module:Backend module</source>
+			</trans-unit>
+			<trans-unit id="extmng.paginateItemsPerPage" xml:space="preserve">
+				<source>Set max items per page</source>
+			</trans-unit>
         </body>
     </file>
 </xliff>

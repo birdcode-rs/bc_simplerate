@@ -7,9 +7,32 @@
 				<source>Rate Administration</source>
 			</trans-unit>
 			<trans-unit id="administration.menu.index" resname="administration.menu.index">
-				<source>Administration Index</source>
+				<source>Default</source>
 			</trans-unit>
-            
+			<trans-unit id="administration.menu.ratingResults" resname="administration.menu.ratingResults">
+				<source>Rating results</source>
+			</trans-unit>
+			<trans-unit id="administration.headline" resname="administration.headline">
+				<source>Rate administration</source>
+			</trans-unit>
+			<trans-unit id="administration.action.filter.title" resname="administration.action.filter.title">
+				<source>Filter results</source>
+			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_rate" resname="administration.action.result.tablehead_rate">
+				<source>Rate</source>
+			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_rateresult" resname="administration.action.result.tablehead_rateresult">
+				<source>Rating result</source>
+			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_recordid" resname="administration.action.result.tablehead_recordid">
+				<source>Record ID</source>
+			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_tablename" resname="administration.action.result.tablehead_tablename">
+				<source>Table name</source>
+			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_note" resname="administration.action.result.tablehead_note">
+				<source>Note</source>
+			</trans-unit>			
         </body>
     </file>
 </xliff>

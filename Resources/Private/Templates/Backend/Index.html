@@ -1,0 +1,68 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+  <f:layout name="Backend" />
+
+  <f:section name="Content">
+
+    <div class="form-row">
+        <div class="form-group">
+            <f:if condition="{generateFilter -> f:count()} > 1">
+              <h3><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.filter.title" /></h3>
+              <f:for each="{generateFilter}" as="filter" key="label">
+                  <f:if condition="{label} == {filtertable} && {filtertable}">
+                    <f:then><a class="btn btn-default active" href="#" style="pointer-events: none;">{label}</a></f:then>
+                    <f:else><a class="btn btn-default" href="{f:uri.action(action:actionName, arguments:{currentPage: page, filtertable: label},addQueryString:'untrusted')}">{label}</a></f:else>
+                  </f:if>
+              </f:for>
+              <f:if condition="{filtertable} != ''">
+                <a class="btn btn-default btn-notice" href="{f:uri.action(action:actionName, arguments:{currentPage: page},addQueryString:'false')}"><svg width="20px" height="20px" viewBox="0 0 0.375 0.375" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.121 0.054a0.013 0.013 0 0 1 0 0.018L0.093 0.1H0.225a0.113 0.113 0 1 1 0 0.225H0.125a0.013 0.013 0 0 1 0 -0.025h0.1a0.088 0.088 0 1 0 0 -0.175H0.093l0.029 0.029a0.013 0.013 0 1 1 -0.018 0.018l-0.05 -0.05a0.013 0.013 0 0 1 0 -0.018l0.05 -0.05a0.013 0.013 0 0 1 0.018 0" fill="#000000"/></svg></a>
+              </f:if>
+            </f:if>
+        </div>
+    </div>
+
+      <f:if condition="{paginatorItems}">
+        <div class="table-fit">
+            <table class="table table-striped table-hover">
+              <thead><tr>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_rate" /></th>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordid" /></th>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_tablename" /></th>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_note" /></th> 
+              <tr></thead>
+                <tbody>
+                  <f:for each="{paginatorItems}" as="rateItem" iteration="iterator">
+                      <tr role="row" class="t3js-entity">
+                        <td><f:render partial="Backend/StarsGenerator" arguments="{rate:rateItem.rate}" /></td>
+                        <td>{rateItem.recordid}</td>
+                        <td>{rateItem.tablename}</td>
+                        <td style="min-width: 200px;">{rateItem.note}</td>
+                      </tr>
+                  </f:for>
+                </tbody>
+            </table>
+        </div>
+      </f:if>
+
+      <div class="form-row">
+        <div class="form-group">
+          <f:if condition="{allPageNumbers -> f:count()} > 1">
+            <f:for each="{allPageNumbers}" as="page">
+              <f:if condition="{page} == {currentPage}">
+                <f:then>
+                  <a class="btn btn-default active" href="#" style="pointer-events: none;">{page}</a>
+                </f:then>
+                <f:else>
+                  <a class="btn btn-default" href="{f:uri.action(action:actionName, arguments:{currentPage: page},addQueryString:'untrusted')}">{page}</a>
+                </f:else>
+              </f:if>
+            </f:for>
+          </f:if>
+        </div>
+      </div>
+
+  </f:section>
+</html>

@@ -23,19 +23,52 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class AdministrationRepository
 {
-    public function getTotalCounts(): array
+    /* main table of the simplerate plugin */
+    protected $tablename = 'tx_bcsimplerate_domain_model_rate';
+    
+    public function generateFilter($pid = 0): ?array
     {
-        $count = [];
+        $queryBuilder = $this->getQueryBuilder($this->tablename);
 
-        $queryBuilder = $this->getQueryBuilder('tx_bcsimplerate_domain_model_rate');
-        $queryBuilder->getRestrictions()->removeAll();
+        return $queryBuilder
+            ->select('tablename')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    "pid",
+                    $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
+                )
+            )
+            ->from($this->tablename)
+            ->executeQuery()->fetchAllAssociativeIndexed();
+    }
+ 
+    public function roundedResults($pid = 0, string $criteria = '', array $orderBy = []): ?array
+    {
+        $queryBuilder = $this->getQueryBuilder($this->tablename);
 
-        $count['tx_bcsimplerate_domain_model_rate'] = $queryBuilder
-            ->count('*')
-            ->from('tx_bcsimplerate_domain_model_rate')
-            ->executeQuery()->fetchOne();
+        $result = $queryBuilder
+        ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
+        ->addSelect("tablename", "recordid", "pid")
+        ->where(
+            $queryBuilder->expr()->eq(
+                "pid",
+                $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
+            )
+        );
+
+        if (!empty($criteria)) {
+            $result->andWhere($criteria);
+        }
+ 
+        if (is_array($orderBy) && !empty($orderBy)) {
+            $result->orderBy(...$orderBy);
+        }
   
-        return $count;
+        $result->from($this->tablename)
+        ->groupBy("tablename", "recordid", "pid")
+        ->executeQuery();
+
+        return $result->fetchAllAssociative();
     }
 
     private function getConnection(string $table): Connection

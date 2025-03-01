@@ -1,12 +1,13 @@
 
 # Module configuration
 module.tx_bcsimplerate {
+  
   settings < plugin.tx_bcsimplerate.settings
   persistence < plugin.tx_bcsimplerate.persistence
-  view < plugin.tx_bcsimplerate.view
+    
   view {
-    templateRootPaths.10 = {$module.tx_bcsimplerate.view.templateRootPath}
-    partialRootPaths.10 = {$module.tx_bcsimplerate.view.partialRootPath}
-    layoutRootPaths.10 = {$module.tx_bcsimplerate.view.layoutRootPath}
+    templateRootPaths.1 = {$module.tx_bcsimplerate.view.templateRootPath}
+    partialRootPaths.1 = {$module.tx_bcsimplerate.view.partialRootPath}
+    layoutRootPaths.1 = {$module.tx_bcsimplerate.view.layoutRootPath}
   }
 }

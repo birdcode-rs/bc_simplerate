@@ -32,15 +32,13 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $recordid;
     
-
      /**
      * tablename.
      *
      * @var string
      */
     protected $tablename = '';
-
-
+ 
     /**
      * note.
      *
@@ -49,6 +47,13 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $note = '';
 
 
+    /**
+     * note.
+     *
+     * @var string
+     */
+    protected $roundrate = '';
+     
      /**
      * get rate.
      *
@@ -70,8 +75,7 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->rate = $rate;
     }
- 
-
+  
     /**
      * get recordid.
      *

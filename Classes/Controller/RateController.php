@@ -92,7 +92,6 @@ class RateController extends ActionController
     public function rateItAction(Rate $rate = null): ResponseInterface
     {
 
-
         if ($rate !== null) {
             // validate if note feature is enable and active
             if (null !== ($this->settings['feature']) && is_array(($this->settings['feature'])) && $this->settings['feature']['noteFieldEnabled'] && $this->settings['feature']['noteFieldRequired']) {
