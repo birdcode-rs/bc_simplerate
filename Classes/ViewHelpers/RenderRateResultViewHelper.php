@@ -19,6 +19,7 @@ use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 
 /**
  * Class RenderRateResultViewHelper.
+ * @package BirdCode\BcSimplerate\ViewHelpers
  */
 class RenderRateResultViewHelper extends AbstractViewHelper
 {
@@ -34,41 +35,28 @@ class RenderRateResultViewHelper extends AbstractViewHelper
     {
         $this->rateRepository = $rateRepository;
     }
-
+ 
     /**
-     * Arguments initialization.
+     * Method initializeArguments
+     *
+     * @return void
      */
     public function initializeArguments(): void
     {
         parent::initializeArguments();
 
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument(
-            'recordid', 
-            'integer', 
-            '', 
-            true, 
-            0,
-        );
-
-        $this->registerArgument(
-            'tablename', 
-            'string', 
-            '', 
-            true, 
-            '',
-        );
-
-        $this->registerArgument(
-            'storage',
-            'integer',
-            '',
-            true, 
-            0,
-        );
+        $this->registerArgument('recordid', 'integer', 'ID of the record', true, 0 );
+        $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
+        $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
     }
-
-    public function render()
+     
+    /**
+     * Method render
+     *
+     * @return array
+     */
+    public function render(): array
     {
         $recordid = $this->arguments['recordid'];
         $tablename = $this->arguments['tablename'];

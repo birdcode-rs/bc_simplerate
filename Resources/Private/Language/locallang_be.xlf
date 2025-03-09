@@ -15,6 +15,9 @@
 			<trans-unit id="extmng.paginateItemsPerPage" xml:space="preserve">
 				<source>Set max items per page</source>
 			</trans-unit>
+			<trans-unit id="extmng.featureGetRecordsField" xml:space="preserve">
+				<source>Add a JSON array to define which field should be shown from the table to act as the record name. The following JSON array specifies that the "title" field should be shown for records in the "tx_news_domain_model_news" and "tx_bcbase_domain_model_reference" tables: [{"tx_news_domain_model_news": "title"}, {"tx_bcbase_domain_model_reference": "title"}]</source>
+			</trans-unit>
         </body>
     </file>
 </xliff>

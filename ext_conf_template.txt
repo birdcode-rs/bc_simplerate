@@ -1,5 +1,6 @@
 # cat=backend module/enable/10; type=boolean; label=LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:extmng.showAdminModule
 showAdminModule = 1
-
 # cat=backend module/enable/101; type=string; label=LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:extmng.paginateItemsPerPage
 paginateItemsPerPage = 25
+# cat=backend module/enable/201; type=string; label=LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:extmng.featureGetRecordsField
+featureGetRecordsField = [{}]

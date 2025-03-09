@@ -25,8 +25,15 @@ class AdministrationRepository
 {
     /* main table of the simplerate plugin */
     protected $tablename = 'tx_bcsimplerate_domain_model_rate';
-    
-    public function generateFilter($pid = 0): ?array
+     
+    /**
+     * Method generateFilter
+     *
+     * @param int $pid
+     *
+     * @return array
+     */
+    public function generateFilter(int $pid = 0): ?array
     {
         $queryBuilder = $this->getQueryBuilder($this->tablename);
 
@@ -41,8 +48,17 @@ class AdministrationRepository
             ->from($this->tablename)
             ->executeQuery()->fetchAllAssociativeIndexed();
     }
- 
-    public function roundedResults($pid = 0, string $criteria = '', array $orderBy = []): ?array
+      
+    /**
+     * Method roundedResults
+     *
+     * @param int $pid
+     * @param string $criteria
+     * @param array $orderBy
+     *
+     * @return array
+     */
+    public function roundedResults(int $pid = 0, string $criteria = '', array $orderBy = []): ?array
     {
         $queryBuilder = $this->getQueryBuilder($this->tablename);
 
@@ -69,12 +85,26 @@ class AdministrationRepository
 
         return $result->executeQuery()->fetchAllAssociative();
     }
-
+    
+    /**
+     * Method getConnection
+     *
+     * @param string $table
+     *
+     * @return Connection
+     */
     private function getConnection(string $table): Connection
     {
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
-
+    
+    /**
+     * Method getQueryBuilder
+     *
+     * @param string $table
+     *
+     * @return QueryBuilder
+     */
     private function getQueryBuilder(string $table): QueryBuilder
     {
         return $this->getConnection($table)->createQueryBuilder();

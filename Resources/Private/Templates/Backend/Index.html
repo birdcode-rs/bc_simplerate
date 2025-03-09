@@ -3,6 +3,8 @@
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
+  {namespace bcsrbe=BirdCode\BcSimplerate\ViewHelpers\Backend}
+ 
   <f:layout name="Backend" />
 
   <f:section name="Content">
@@ -31,14 +33,17 @@
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_rate" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordid" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_tablename" /></th>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordname" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_note" /></th> 
               <tr></thead>
                 <tbody>
                   <f:for each="{paginatorItems}" as="rateItem" iteration="iterator">
                       <tr role="row" class="t3js-entity">
-                        <td><f:render partial="Backend/StarsGenerator" arguments="{rate:rateItem.rate}" /></td>
+                        <td style="min-width: 100px;"><f:render partial="Backend/StarsGenerator" arguments="{rate:rateItem.rate}" /></td>
                         <td>{rateItem.recordid}</td>
-                        <td>{rateItem.tablename}</td>
+                        <td><f:variable name="tcaTitle">{bcsrbe:beGetTcaFieldData(tablename:rateItem.tablename, fieldname:'title')}</f:variable>
+                          <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:rateItem.tablename, fieldname:'title')}</f:else></f:if> - [{rateItem.tablename}]</td>
+                        <td>{bcsrbe:beGetFieldData(recordid:rateItem.recordid, tablename:rateItem.tablename, config:featureGetRecordsField)}</td>
                         <td style="min-width: 200px;">{rateItem.note}</td>
                       </tr>
                   </f:for>

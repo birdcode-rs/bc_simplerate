@@ -67,19 +67,35 @@ class AdministrationController extends ActionController
 
     /** @var EmConfiguration */
     protected $emConfiguration;
- 
-    public function injectAdministrationRepository(AdministrationRepository $administrationRepository)
+     
+    /**
+     * Method injectAdministrationRepository
+     *
+     * @param AdministrationRepository $administrationRepository
+     *
+     * @return void
+     */
+    public function injectAdministrationRepository(AdministrationRepository $administrationRepository): void
     {
         $this->administrationRepository = $administrationRepository;
     }
-
-    public function injectRateRepository(RateRepository $rateRepository)
+    
+    /**
+     * Method injectRateRepository
+     *
+     * @param RateRepository $rateRepository
+     *
+     * @return void
+     */
+    public function injectRateRepository(RateRepository $rateRepository): void
     {
         $this->rateRepository = $rateRepository;
     }
 
     /**
      * BackendController constructor. Takes care of dependency injection
+     *
+     * @return void
      */
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -100,17 +116,24 @@ class AdministrationController extends ActionController
         );
     }
     
+     
     /**
-     * Function will be called before every other action
+     * Method initializeAction
+     *
+     * @return void
      */
     protected function initializeAction(): void
     {
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
         $this->emConfiguration = GeneralUtility::makeInstance(EmConfiguration::class);
     }
-
+ 
     /**
-     * Index action for this controller
+     * Method indexAction
+     *
+     * @param int $currentPage
+     *
+     * @return ResponseInterface
      */
     public function indexAction(int $currentPage = 1): ResponseInterface
     {   
@@ -139,6 +162,7 @@ class AdministrationController extends ActionController
                 'paginatorItems' => $paginator->getPaginatedItems(),
                 'pagination' => $pagination,
                 'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+                'featureGetRecordsField' => $this->emConfiguration->getFeatureGetRecordsFieldArray()
             ]);
         }
 
@@ -152,8 +176,13 @@ class AdministrationController extends ActionController
         return $view->renderResponse('Backend/Index');
     }
 
+     
     /**
-     * Filter action for this controller
+     * Method ratingResultsAction
+     *
+     * @param int $currentPage
+     *
+     * @return ResponseInterface
      */
     public function ratingResultsAction(int $currentPage = 1): ResponseInterface
     {
@@ -181,6 +210,7 @@ class AdministrationController extends ActionController
                 'paginatorItems' => $paginator->getPaginatedItems(),
                 'pagination' => $pagination,
                 'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+                'featureGetRecordsField' => $this->emConfiguration->getFeatureGetRecordsFieldArray()
             ]);
         }
  
@@ -193,9 +223,12 @@ class AdministrationController extends ActionController
  
         return $view->renderResponse('Backend/RatingResults');
     }
- 
+     
+     
     /**
-     * Generates the action menu
+     * Method initializeModuleTemplate
+     *
+     * @return ModuleTemplate
      */
     protected function initializeModuleTemplate(
         ServerRequestInterface $request,
@@ -212,7 +245,15 @@ class AdministrationController extends ActionController
 
         return $view;
     }
-
+    
+    /**
+     * Method modifyDocHeaderComponent
+     *
+     * @param ModuleTemplate $view 
+     * @param string $context
+     *
+     * @return void
+     */
     private function modifyDocHeaderComponent(ModuleTemplate $view, string &$context): void
     {
         $menu = $this->buildMenu($view, $context);
@@ -223,12 +264,25 @@ class AdministrationController extends ActionController
             $view->getDocHeaderComponent()->setMetaInformation($metaInformation);
         }
     }
- 
+     
+    /**
+     * Method getLanguageService
+     *
+     * @return LanguageService
+     */
     protected function getLanguageService(): LanguageService
     {
         return $this->languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER']);
     }
-
+    
+    /**
+     * Method buildMenu
+     *
+     * @param ModuleTemplate $view 
+     * @param string $context 
+     *
+     * @return Menu
+     */
     private function buildMenu(ModuleTemplate $view, string &$context): Menu
     {
         $menuItems = [

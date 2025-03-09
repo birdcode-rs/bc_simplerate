@@ -67,8 +67,13 @@ class RateController extends ActionController
     {
         $this->buildSettings();
     }
-
-    protected function initializeView($view)
+    
+    /**
+     * Method initializeView
+     *
+     * @return void
+     */
+    protected function initializeView($view): void
     {
         // @extensionScannerIgnoreLine
         /**
@@ -89,9 +94,8 @@ class RateController extends ActionController
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function rateItAction(Rate $rate = null): ResponseInterface
+    public function rateItAction(?Rate $rate = null): ResponseInterface
     {
-
         if ($rate !== null) {
             // validate if note feature is enable and active
             if (null !== ($this->settings['feature']) && is_array(($this->settings['feature'])) && $this->settings['feature']['noteFieldEnabled'] && $this->settings['feature']['noteFieldRequired']) {
@@ -170,7 +174,7 @@ class RateController extends ActionController
      *
      * @return void
      */
-    public function buildSettings()
+    public function buildSettings(): void
     {
         $tsSettings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,

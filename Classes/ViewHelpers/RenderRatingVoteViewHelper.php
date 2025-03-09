@@ -19,7 +19,6 @@ use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 
 /**
  * Class RenderRateResultViewHelper
- *
  * @package BirdCode\BcSimplerate\ViewHelpers
  */
 class RenderRatingVoteViewHelper extends AbstractViewHelper
@@ -31,49 +30,38 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
      */
     public $rateRepository = null;
 
+    /**
+     * Inject the RateRepository
+     *
+     * @param RateRepository $rateRepository
+     */
     public function injectRateRepository(RateRepository $rateRepository)
     {
         $this->rateRepository = $rateRepository;
     }
-    
+     
     /**
-     * Arguments initialization.
+     * Method initializeArguments
+     *
+     * @return void
      */
     public function initializeArguments(): void
     {
         parent::initializeArguments();
         
-        $this->registerArgument(
-            'recordid', 
-            'integer', 
-            '', 
-            true, 
-            0,
-        );
-        $this->registerArgument(
-            'tablename', 
-            'string', 
-            '', 
-            true, 
-            '',
-        );
-        $this->registerArgument(
-            'cookiename', 
-            'string', 
-            '', 
-            true, 
-            '',
-        );
-        $this->registerArgument(
-            'storage', 
-            'integer', 
-            '', 
-            true, 
-            0,
-        );
+        // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
+        $this->registerArgument('recordid', 'integer', 'ID of the record', true, 0 );
+        $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
+        $this->registerArgument('cookiename', 'string', 'Name of the cookie used to store rate results', true, '');
+        $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
     }
- 
-    public function render()
+     
+    /**
+     * Method render
+     *
+     * @return mixed
+     */
+    public function render(): mixed
     {
         $recordid = $this->arguments['recordid'];
         $tablename = $this->arguments['tablename'];

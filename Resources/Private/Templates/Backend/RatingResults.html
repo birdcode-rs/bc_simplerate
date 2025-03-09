@@ -3,6 +3,8 @@
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
+      {namespace bcsrbe=BirdCode\BcSimplerate\ViewHelpers\Backend}
+
   <f:layout name="Backend" />
 
   <f:section name="Content">
@@ -31,6 +33,7 @@
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_rateresult" /></th>
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordid" /></th>
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_tablename" /></th>
+                  <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordname" /></th>
                 <tr></thead>
                 <tbody>
                   <f:for each="{paginatorItems}" as="item" iteration="iterator">
@@ -38,7 +41,10 @@
                         <td style="width:10px">[{item.roundrate}]</td>
                         <td><f:render partial="Backend/StarsGenerator" arguments="{rate:item.roundrate}"/> </td>
                         <td>{item.recordid}</td>
-                        <td>{item.tablename}</td>
+                        <td>
+                          <f:variable name="tcaTitle">{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:variable>
+                          <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:else></f:if> - [{item.tablename}]</td>
+                        <td>{bcsrbe:beGetFieldData(recordid:item.recordid, tablename:item.tablename, config:featureGetRecordsField)}</td>
                       </tr>
                   </f:for>
                 </tbody>

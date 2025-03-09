@@ -47,24 +47,95 @@ class EmConfiguration
 
     /** @var int */
     protected $paginateItemsPerPage = 25;
- 
-    public function setShowAdminModule($showAdminModule): void
+
+    /** @var string */
+    protected $featureGetRecordsField = '[{}]';
+     
+     
+    /**
+     * Method setShowAdminModule
+     *
+     * @param bool $showAdminModule
+     *
+     * @return void
+     */
+    public function setShowAdminModule(bool $showAdminModule): void
     {
         $this->showAdminModule = $showAdminModule;
     }
-
+    
+    /**
+     * Method getShowAdminModule
+     *
+     * @return bool
+     */
     public function getShowAdminModule(): bool
     {
         return (bool)$this->showAdminModule;
     }
-
-    public function setPaginateItemsPerPage($paginateItemsPerPage): void
+     
+    /**
+     * Method setPaginateItemsPerPage
+     *
+     * @param string $paginateItemsPerPage
+     *
+     * @return void
+     */
+    public function setPaginateItemsPerPage(string $paginateItemsPerPage): void
     {
         $this->paginateItemsPerPage = $paginateItemsPerPage;
     }
-
+    
+    /**
+     * Method getPaginateItemsPerPage
+     *
+     * @return int
+     */
     public function getPaginateItemsPerPage(): int
     {
         return (int)$this->paginateItemsPerPage;
+    }
+
+     
+    /**
+     * Method setFeatureGetRecordsField
+     *
+     * @param string $featureGetRecordsField
+     *
+     * @return void
+     */
+    public function setFeatureGetRecordsField(string $featureGetRecordsField): void
+    {
+        $this->featureGetRecordsField = $featureGetRecordsField;
+    }
+    
+    /**
+     * Method getFeatureGetRecordsField
+     *
+     * @return string
+     */
+    public function getFeatureGetRecordsField(): string
+    {
+        return (string)$this->featureGetRecordsField;
+    }
+    
+    /**
+     * Method getFeatureGetRecordsFieldArray
+     *
+     * @return array
+     */
+    public function getFeatureGetRecordsFieldArray(): array
+    {
+        $featureGetRecordsField = $this->featureGetRecordsField;
+        $decodedDataAsArray = json_decode($featureGetRecordsField, true);
+
+        $result = [];
+        foreach($decodedDataAsArray as $key => $row) {
+            foreach($row as $tableName => $fieldName) {    
+                $result[$tableName] = $fieldName;
+            }
+        }
+
+        return $result;
     }
 }
