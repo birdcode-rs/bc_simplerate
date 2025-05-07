@@ -18,7 +18,7 @@
 			<trans-unit id="tx_bcsimplerate_domain_model_rate.note" resname="tx_bcsimplerate_domain_model_rate.note">
 				<source>Note</source>
 			</trans-unit>
-			<trans-unit id="tx_bcsimplerate_domain_model_rate.user" resname="tx_bcsimplerate_domain_model_rate.user">
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.feuser" resname="tx_bcsimplerate_domain_model_rate.feuser">
 				<source>User given rate</source>
 			</trans-unit>
 		</body>
