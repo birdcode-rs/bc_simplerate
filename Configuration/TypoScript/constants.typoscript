@@ -13,12 +13,11 @@ plugin.tx_bcsimplerate {
         storagePid = 
     }
     settings {
-        # cat=plugin.tx_bcsimplerate//a; type=string; label=Cookiename
         cookiename = 
-        # cat=plugin.tx_bcsimplerate//a; type=string; label=Record id
         rId = 
-        # cat=plugin.tx_bcsimplerate//a; type=string; label=Recod belong to table
         rTable =
+        featureFeuser = 
+        
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Maximum rate number
         maxRateNumber = 5
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Rate icon HTML
@@ -39,6 +38,7 @@ plugin.tx_bcsimplerate {
         # cat=plugin.tx_bcsimplerate//a; type=string; label=storage
         storage = 
         
+        
         feature {
             # cat=plugin.tx_bcsimplerate//a; type=string; label=Enable note field
             noteFieldEnabled = 0
@@ -46,6 +46,8 @@ plugin.tx_bcsimplerate {
             noteFieldRequired = 0
             # cat=plugin.tx_bcsimplerate//a; type=string; label=Note field Label
             noteFieldLabel = Add comment to review
+            # cat=plugin.tx_bcsimplerate//a; type=string; label=Enable FE user ratings
+            feuser = 
         }
     }
 }

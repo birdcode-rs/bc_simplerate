@@ -38,12 +38,16 @@ plugin.tx_bcsimplerate {
         submitButtonIconHtml = {$plugin.tx_bcsimplerate.settings.submitButtonIconHtml}
         thanksRatingIconHtml = {$plugin.tx_bcsimplerate.settings.thanksRatingIconHtml}
         storage = {$plugin.tx_bcsimplerate.settings.storage}
-
+    
         feature {
             noteFieldEnabled = {$plugin.tx_bcsimplerate.settings.feature.noteFieldEnabled}
             noteFieldRequired = {$plugin.tx_bcsimplerate.settings.feature.noteFieldRequired}
             noteFieldLabel = {$plugin.tx_bcsimplerate.settings.feature.noteFieldLabel} 
+            feuser = {$plugin.tx_bcsimplerate.settings.feature.feuser} 
         }
+
+        # Helper settings do not set anything directly
+        featureFeuser = 
     }
 }
  
@@ -100,9 +104,12 @@ lib.ratePlugin {
         storage.cObject.field = storage
         cookiename.cObject = TEXT
         cookiename.cObject.field = cookieName
-        #useStdWrap =recordid,tablename,pid
-        useStdWrap = rId,rTable,cookiename,storage
-        overrideFlexformSettingsIfEmpty := addToList(rId,rTable,cookiename,storage)
+        featureFeuser.cObject = TEXT
+        featureFeuser.cObject.field = featureFeuser
+        
+        #useStdWrap = recordid,tablename,pid
+        useStdWrap = rId,rTable,cookiename,storage,featureFeuser
+        overrideFlexformSettingsIfEmpty := addToList(rId,rTable,cookiename,storage,featureFeuser)
     }
 }
 

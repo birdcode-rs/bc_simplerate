@@ -18,6 +18,9 @@
 			<trans-unit id="tx_bcsimplerate_domain_model_rate.note" resname="tx_bcsimplerate_domain_model_rate.note">
 				<source>Note</source>
 			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.user" resname="tx_bcsimplerate_domain_model_rate.user">
+				<source>User given rate</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

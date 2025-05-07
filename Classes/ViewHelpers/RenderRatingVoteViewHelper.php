@@ -16,9 +16,11 @@ namespace BirdCode\BcSimplerate\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class RenderRateResultViewHelper
+ * Class RenderRatingVoteViewHelper
  * @package BirdCode\BcSimplerate\ViewHelpers
  */
 class RenderRatingVoteViewHelper extends AbstractViewHelper
@@ -54,6 +56,8 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
         $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
         $this->registerArgument('cookiename', 'string', 'Name of the cookie used to store rate results', true, '');
         $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
+        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);
+        
     }
      
     /**
@@ -67,9 +71,22 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
         $tablename = $this->arguments['tablename'];
         $cookiename = $this->arguments['cookiename'];
         $storage = $this->arguments['storage'];
+        $featureFeuser = $this->arguments['featureFeuser'];
+ 
         $rateData = null;
-
-        if (isset($_COOKIE[$cookiename])) {
+        $userId = null;
+ 
+        $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
+        if (null !== $frontendUser) {
+            $userId = $frontendUser->get('id');
+        }
+ 
+        if ($userId && $featureFeuser) {
+            $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, (int) $recordid);
+            if (isset($rated) && !empty($rated)) {
+                $rateData = reset($rated);
+            }
+        } else if (isset($_COOKIE[$cookiename]) && ! $featureFeuser) {
             // 25|5, 30|3
             $cookieValue = $_COOKIE[$cookiename];
             $cookieValAsArray = explode("," , $cookieValue);

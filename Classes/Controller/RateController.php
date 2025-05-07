@@ -23,7 +23,9 @@ use Psr\Http\Message\ResponseInterface;
 
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use BirdCode\BcSimplerate\Utility\TypoScript;
-use BirdCode\BcSimplerate\Domain\Model\Rate;
+use BirdCode\BcSimplerate\Domain\Model\Rate;  
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Core\Context\Context;
 
 /**
  * RateController.
@@ -53,6 +55,7 @@ class RateController extends ActionController
     public function __construct(
         RateRepository $rateRepository,
         PersistenceManager $persistenceManager,
+        private readonly Context $context
     ) {
         $this->rateRepository = $rateRepository; 
         $this->persistenceManager = $persistenceManager;
@@ -96,7 +99,15 @@ class RateController extends ActionController
      */
     public function rateItAction(?Rate $rate = null): ResponseInterface
     {
+        $userId = null;
         if ($rate !== null) {
+            $frontendUser = $this->context->getAspect('frontend.user');
+
+            if (null === $rate->getFeuser() && null !== $frontendUser) {
+                $userId = $frontendUser->get('id');
+                $rate->setFeuser($userId);
+            }
+
             // validate if note feature is enable and active
             if (null !== ($this->settings['feature']) && is_array(($this->settings['feature'])) && $this->settings['feature']['noteFieldEnabled'] && $this->settings['feature']['noteFieldRequired']) {
                 if (empty(trim($rate->getNote()))) {
@@ -124,10 +135,10 @@ class RateController extends ActionController
             $this->rateRepository->add($rate);
             $this->persistenceManager->persistAll();
             $currentRecordId = $rate->getRecordId();
-
+ 
             // Call the viewhelper to render the voting data.
             $getInstanceRRVH = new (GeneralUtility::makeInstance('BirdCode\\BcSimplerate\\ViewHelpers\\RenderRateResultViewHelper'));
-            $getInstanceRRVH->setArguments(['recordid' => $rate->getRecordId(), 'tablename' => $rate->getTablename(), 'storage' => $rate->getPid()]);
+            $getInstanceRRVH->setArguments(['recordid' => $rate->getRecordId(), 'tablename' => $rate->getTablename(), 'storage' => $rate->getPid(), 'featureFeuser' => 0]);
             $getInstanceRRVH->injectRateRepository($this->rateRepository);
    
             return $this->jsonResponse(
@@ -160,16 +171,23 @@ class RateController extends ActionController
         }
  
         $this->view->assign('rate', $rate);
+        $frontendUser = $this->context->getAspect('frontend.user');
+ 
+        if (null !== $frontendUser) {
+            $userId = $frontendUser->get('id');
+        }
+ 
+        $this->view->assign('userId', $userId);
+        $this->view->assign('user', $frontendUser);
         return $this->htmlResponse();
     }
  
-
     /***************************************************************************
      * helper
      **********************/
     /**
      * Injects the Configuration Manager and is initializing the framework settings.
-     *
+     * Yap thanks to the Georg News ext
      * @param ConfigurationManagerInterface $configurationManager Instance of the Configuration Manager
      *
      * @return void
@@ -222,7 +240,6 @@ class RateController extends ActionController
         if (isset($originalSettings) && isset($originalSettings['maxRateNumber']) && !empty($originalSettings['maxRateNumber'])) {
             $i = 1;
             $generateRating = [];
-
             while ($i <= $originalSettings['maxRateNumber']) {
                 $generateRating[$i] = $i;
                 ++$i;

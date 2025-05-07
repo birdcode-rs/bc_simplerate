@@ -1,19 +1,20 @@
 <?php
 
 defined('TYPO3') or die;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use BirdCode\BcSimplerate\Controller\RateController;
 
 $boot = static function (): void {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    ExtensionUtility::configurePlugin(
         'BcSimplerate',
         'Pi1',
         [
-            \BirdCode\BcSimplerate\Controller\RateController::class => 'rateIt',
+            RateController::class => 'rateIt',
         ], 
         [
-            \BirdCode\BcSimplerate\Controller\RateController::class => 'rateIt',
+            RateController::class => 'rateIt',
         ],
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_PLUGIN
+        ExtensionUtility::PLUGIN_TYPE_PLUGIN
     );
 };
 

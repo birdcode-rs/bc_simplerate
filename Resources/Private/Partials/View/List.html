@@ -1,0 +1,14 @@
+<f:variable name="rateResult">{bcsr:renderRateResult(recordid:settings.rId, tablename:settings.rTable, storage:settings.storage, featureFeuser:settings.featureFeuser)}</f:variable>
+<f:if condition="{rateResult}">
+    <f:then>
+        <span class="rate-results">{rateResult.roundedResult}/{settings.maxRateNumber}</span>
+        <svg width="46" height="42" viewBox="0 0 46 42" style="color: #106c54">
+            <use href="{f:uri.image(src: 'EXT:bc_simplerate/Resources/Public/Images/bc-simple-rate-heart.svg', treatIdAsReference: 1)}#heart"></use>
+        </svg>
+    </f:then>
+    <f:else>
+        <svg width="46" height="42" viewBox="0 0 46 42" style="color: #a47f48;">
+            <use href="{f:uri.image(src: 'EXT:bc_simplerate/Resources/Public/Images/bc-simple-rate-heart.svg', treatIdAsReference: 1)}#heart"></use>
+        </svg>
+    </f:else>
+</f:if>

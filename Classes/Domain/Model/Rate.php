@@ -45,14 +45,20 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $note = '';
-
-
+ 
     /**
      * note.
      *
      * @var string
      */
     protected $roundrate = '';
+
+    /**
+     * feuser.
+     *
+     * @var ?int
+     */
+    protected $feuser = null;
      
      /**
      * get rate.
@@ -142,4 +148,24 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->note = $note;
     }
 
+    /**
+     * Get the value of feuser.
+     *
+     * @return int|null
+     */
+    public function getFeuser(): ?int
+    {
+        return $this->feuser;
+    }
+
+    /**
+     * Set the value of feuser.
+     *
+     * @param int|null $feuser
+     * @return void
+     */
+    public function setFeuser(?int $feuser): void
+    {
+        $this->feuser = $feuser;
+    }
 }

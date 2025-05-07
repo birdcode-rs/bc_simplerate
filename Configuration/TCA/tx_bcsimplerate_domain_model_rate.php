@@ -21,16 +21,16 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'recordid, tablename, note',
+        'searchFields' => 'recordid, tablename, note, feuser',
         'iconfile' => 'EXT:bc_simplerate/Resources/Public/Icons/star-rating-icon.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'rate, recordid, tablename',
+        'showRecordFieldList' => 'rate, recordid, tablename, feuser',
     ],
     'types' => [
         '1' => [
             'showitem' => '
-                sys_language_uid, l10n_parent, l10n_diffsource, hidden, rate, recordid, tablename, note,
+                sys_language_uid, l10n_parent, l10n_diffsource, hidden, rate, recordid, tablename, note, feuser,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime
            ',
         ],
@@ -126,5 +126,23 @@ return [
                 'rows' => 4,
             ],
         ],
+        'feuser' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_db.xlf:tx_bcsimplerate_domain_model_rate.feuser',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'fe_users',
+                'foreign_table_where' => 'ORDER BY fe_users.username',
+                'items' => [
+                    ['Please choose', 0],
+                ],
+                'size' => 10,
+                'maxitems' => 1,
+                'minitems' => 0,
+                'autoSizeMax' => 10,
+                'multiple' => 0,
+            ],
+        ]
     ],
 ];

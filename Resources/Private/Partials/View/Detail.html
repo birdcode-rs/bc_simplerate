@@ -1,0 +1,20 @@
+<f:variable name="rateResult">{bcsr:renderRateResult(recordid:settings.rId, tablename:settings.rTable, storage:settings.storage, featureFeuser:settings.featureFeuser)}</f:variable>
+<f:if condition="{rateResult}">
+    <f:then>
+        <div class="rating_record">
+            <div class="data_rating" data-rating="{rateResult.roundedResult}"></div>
+            <div class="rating_record-data">
+                <span class="average_rating"><strong>{rateResult.roundedResult}/{settings.maxRateNumber}</strong></span>
+                <div class="rating_count">({rateResult.numberOfRates} {settings.reviewsLabel->f:format.raw()})</div>
+            </div>
+        </div>
+    </f:then>
+    <f:else>
+        <div class="rating_record">
+            <div class="data_rating" data-rating="0"></div>
+            <div class="rating_record-data">
+                <span class="no-rate">{settings.noRatingsLabel->f:format.raw()}</span>
+            </div>
+        </div>
+    </f:else>
+</f:if>

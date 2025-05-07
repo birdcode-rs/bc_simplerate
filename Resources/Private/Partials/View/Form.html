@@ -1,0 +1,57 @@
+<f:variable name="rate">{bcsr:renderRatingVote(recordid:settings.rId, tablename: settings.rTable, cookiename:settings.cookiename, storage:settings.storage, featureFeuser:settings.featureFeuser)}</f:variable>
+
+<div class="rating-system" id="simple-rate">
+    <div class="simplerate_wrapper">
+        <f:if condition="{settings.ratingLabel}"><span class="simplerate_text">{settings.ratingLabel}</span></f:if>
+        
+        <div class="simplerate_main">
+
+            {f:variable(name: 'disabledB', value: '')}
+            <f:if condition="{rate.rate}">{f:variable(name: 'disabledB', value: 'disabled')}</f:if>
+    
+            <f:form action="rateIt" method="post" name="rate" object="{rate}" objectName="rate" class="{f:if(condition: '{settings.featureFeuser}', then: 'user-feature', else: '')} simplerate_form js-send-rate {f:if(condition: '{rate.rate}', then: 'pointer-events-none', else: 'not-rated')}" 
+                controller="Rate" pluginName="Pi1" pageType="20250302" extensionName="BcSimplerate" enctype="multipart/form-data">
+
+                <f:form.hidden property="tablename" value="{settings.rTable}" />
+                <f:form.hidden property="recordid" value="{settings.rId}" />
+                <f:form.hidden property="pid" value="{settings.storage}" />
+                <f:form.hidden name="cookieName" value="{settings.cookiename}" />
+                <f:form.hidden property="feuser" value="{userId}" />
+                <f:form.hidden property="note" value="-" />
+                
+                <fieldset>
+                    <div class="simplerate_form-col js-send-rate-col">
+                        <f:for each="{settings.generateRating}" as="item" iteration="i" reverse="true">
+                            <f:form.radio id="rating-{item}" property="rate" value="{item}" additionalAttributes="{'data-rating':item}"/>
+                            <label for="rating-{item}" title="{item} stars">
+                                {settings.rateIconHtml -> f:format.raw()}
+                            </label>    
+                        </f:for>
+                    </div>
+
+                    <f:if condition="{settings.feature.noteFieldEnabled}">
+                        <f:then>
+                            <div class="simplerate_form-col note-field-wrap" data-required="{settings.feature.noteFieldRequired}">
+                                <label>{settings.feature.noteFieldLabel} <f:if condition="{settings.feature.noteFieldRequired}">*</f:if></label>
+                                <f:form.textarea property="note" rows="2" cols="2" />
+                            </div>
+                        </f:then>
+                    </f:if>
+                </fieldset>
+    
+                <fieldset>
+                    <div class="simplerate_form-col {f:if(condition: '{rate.rate}', then: 'rated', else: 'not-rated')}">
+                        <f:form.button type="submit" class="simplerate_submit js-send-rate-submit" disabled='{disabledB}'>
+                            {settings.submitButtonIconHtml -> f:format.raw()}
+                        </f:form.button>
+                    </div>
+                </fieldset>
+            </f:form>
+            
+            <div class="simplerate_success">
+                <span data-label="{settings.thanksRatingLabel -> f:format.raw()}"></span>
+                {settings.thanksRatingIconHtml -> f:format.raw()}
+            </div>
+        </div>
+    </div>
+</div>
