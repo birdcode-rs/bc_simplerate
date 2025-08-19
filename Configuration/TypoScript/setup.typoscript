@@ -81,8 +81,6 @@ page.includeJSFooterlibs.cookie = EXT:bc_simplerate/Resources/Public/JavaScript/
 page.includeJSFooterlibs.cookie.forceOnTop = 1
 page.includeJSFooterlibs.cookie.disableCompression = 1
 page.includeJSFooterlibs.cookie.excludeFromConcatenation = 1
-page.includeJSFooterlibs.cookie.async = 1
-page.includeJSFooterlibs.cookie.defer = 1 
 page.includeJSFooterlibs.simplerate = EXT:bc_simplerate/Resources/Public/JavaScript/functions.js
  
 lib.ratePlugin = USER_INT
