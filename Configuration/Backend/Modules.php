@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/***
+ *
+ * This file is part of the "BC Simplerate" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ *  (c) 2025 Bird Dev <bird.dev@birdcode.in.rs>, Bird Code
+ *
+ ***/
+
 use BirdCode\BcSimplerate\Controller\AdministrationController;
 use BirdCode\BcSimplerate\Domain\Model\Dto\EmConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

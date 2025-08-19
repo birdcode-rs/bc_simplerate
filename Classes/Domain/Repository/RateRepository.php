@@ -91,7 +91,6 @@ class RateRepository extends Repository
         $query->matching($query->logicalAnd(...$constraints));
 
         $results = $query->execute()->toArray();
- 
         return $results;
     }
 
@@ -130,7 +129,6 @@ class RateRepository extends Repository
         $query->matching($query->logicalAnd(...$constraints));
 
         $results = $query->execute()->toArray();
-
         return $results;
     }
 
@@ -179,7 +177,6 @@ class RateRepository extends Repository
         $query->matching($query->logicalAnd(...$constraints));
 
         $results = $query->execute()->toArray();
-
         return $results;
     }
 }

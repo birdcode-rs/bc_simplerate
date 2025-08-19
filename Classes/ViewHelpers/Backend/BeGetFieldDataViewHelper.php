@@ -20,14 +20,12 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * Class BeGetFieldDataViewHelper.
  * @package BirdCode\BcSimplerate\ViewHelpers\Backend
  */
 class BeGetFieldDataViewHelper extends AbstractViewHelper
 {
-     
     /**
      * Method initializeArguments
      *
@@ -88,7 +86,7 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
         if (!empty($config)) {
             $recordValue = $this->getRecordValue($recordid, $tablename, $config);
             if (!empty($recordValue)) {
-                return $recordValue[0];
+                return (string) $recordValue[0];
             }
         }
 

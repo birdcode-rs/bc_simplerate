@@ -1,4 +1,3 @@
-
 plugin.tx_bcsimplerate {
     view {
         # cat=plugin.tx_bcsimplerate/file; type=string; label=Path to template root (FE)
@@ -37,8 +36,7 @@ plugin.tx_bcsimplerate {
         thanksRatingLabel = Thanks for sharing your feedback!
         # cat=plugin.tx_bcsimplerate//a; type=string; label=storage
         storage = 
-        
-        
+         
         feature {
             # cat=plugin.tx_bcsimplerate//a; type=string; label=Enable note field
             noteFieldEnabled = 0

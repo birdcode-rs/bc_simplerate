@@ -1,6 +1,6 @@
 <f:if condition="{settings.view} == 'listview'">
     <f:then>
-        <f:if condition="{settings.featureFeuser}">
+        <f:if condition="{settings.featureFeuser} || {settings.feature.feuser}">
             <f:then> 
                 <f:security.ifAuthenticated>
                     <f:render partial="View/List" arguments="{_all}" />
@@ -12,7 +12,7 @@
         </f:if>
     </f:then>
     <f:else if="{settings.view} == 'detailview'">
-        <f:if condition="{settings.featureFeuser}">
+        <f:if condition="{settings.featureFeuser} || {settings.feature.feuser}">
             <f:then> 
                 <f:security.ifAuthenticated>
                     <f:render partial="View/Detail" arguments="{_all}" />
@@ -24,7 +24,7 @@
         </f:if>
     </f:else>
     <f:else if="{blockRating} == 0">
-        <f:if condition="{settings.featureFeuser}">
+        <f:if condition="{settings.featureFeuser} || {settings.feature.feuser}">
             <f:then> 
                 <f:security.ifAuthenticated>
                     <f:render partial="View/Form" arguments="{_all}" />

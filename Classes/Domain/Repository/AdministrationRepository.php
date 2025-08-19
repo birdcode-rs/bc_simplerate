@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class AdministrationRepository
 {
     /* main table of the simplerate plugin */
-    protected $tablename = 'tx_bcsimplerate_domain_model_rate';
+    protected string $tablename = 'tx_bcsimplerate_domain_model_rate';
      
     /**
      * Method generateFilter

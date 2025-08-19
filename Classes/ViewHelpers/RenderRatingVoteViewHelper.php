@@ -30,7 +30,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
      *
      * @var RateRepository
      */
-    public $rateRepository = null;
+    public RateRepository $rateRepository;
 
     /**
      * Inject the RateRepository
@@ -56,44 +56,41 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
         $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
         $this->registerArgument('cookiename', 'string', 'Name of the cookie used to store rate results', true, '');
         $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
-        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);
-        
+        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);        
     }
      
     /**
      * Method render
      *
-     * @return mixed
+     * @return array|null
      */
-    public function render(): mixed
+    public function render(): ?array
     {
-        $recordid = $this->arguments['recordid'];
-        $tablename = $this->arguments['tablename'];
-        $cookiename = $this->arguments['cookiename'];
-        $storage = $this->arguments['storage'];
-        $featureFeuser = $this->arguments['featureFeuser'];
+        $recordid = (int)$this->arguments['recordid'];
+        $tablename = (string)$this->arguments['tablename'];
+        $cookiename = (string)$this->arguments['cookiename'];
+        $storage = (int)$this->arguments['storage'];
+        $featureFeuser = (int)$this->arguments['featureFeuser'];
  
         $rateData = null;
         $userId = null;
  
         $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
-        if (null !== $frontendUser) {
-            $userId = $frontendUser->get('id');
+        if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
+            $userId = (int)$frontendUser->get('id');
         }
  
         if ($userId && $featureFeuser) {
-            $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, (int) $recordid);
-            if (isset($rated) && !empty($rated)) {
-                $rateData = reset($rated);
-            }
-        } else if (isset($_COOKIE[$cookiename]) && ! $featureFeuser) {
+            $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid);
+            $rateData = reset($rated) ?? null;
+        } elseif (isset($_COOKIE[$cookiename]) && !$featureFeuser) {
             // 25|5, 30|3
-            $cookieValue = $_COOKIE[$cookiename];
-            $cookieValAsArray = explode("," , $cookieValue);
+            $cookieValue = (string)$_COOKIE[$cookiename];
+            $cookieItems = explode(",", $cookieValue);
  
-            foreach ($cookieValAsArray as $key => $value) {
+            foreach ($cookieItems as $key => $value) {
                 if (isset($value)) {
-                    $uidAndRate = explode("|" , $value);
+                    $uidAndRate = explode("|", $value);
                     if ($uidAndRate[0] == $recordid) {
                         $rated = $this->rateRepository->findByParams((int) $uidAndRate[0], (string) $tablename, (int) $uidAndRate[1], (int) $storage);
                         if (isset($rated) && !empty($rated)) {

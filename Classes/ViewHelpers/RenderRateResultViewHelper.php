@@ -61,13 +61,18 @@ class RenderRateResultViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-        $recordid = $this->arguments['recordid'];
-        $tablename = $this->arguments['tablename'];
-        $storage = $this->arguments['storage'];
-        $featureFeuser = $this->arguments['featureFeuser'];
+         $recordid = $this->arguments['recordid'] ?? 0;
+        $tablename = $this->arguments['tablename'] ?? '';
+        $storage = $this->arguments['storage'] ?? 0;
+        $userId = null;
         $response = [];
-     
-        if ($featureFeuser) {
+
+        $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
+        if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
+            $userId = (int) $frontendUser->get('id');
+        }  
+  
+        if ($userId) {
             $results = $this->rateRepository->findRecordByIdAndTablenameForLoggedUsers((int) $recordid, $tablename, (int) $storage);
         } else {
             $results = $this->rateRepository->findRecordByIdAndTablename((int) $recordid, $tablename, (int) $storage);
@@ -78,7 +83,7 @@ class RenderRateResultViewHelper extends AbstractViewHelper
             $rates = 0;
 
             foreach ($results as $key => $result) {
-                (int) $rates += (int) $result->getRate();
+                $rates += (int) $result->getRate();
             }
             
             $roundedResult = round($rates / $i * 2, 0) / 2;
@@ -88,15 +93,10 @@ class RenderRateResultViewHelper extends AbstractViewHelper
                 'numberOfRates' => $i,
                 'ratingResults' => $results
             ];
-
-            $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
-             
-            if (null !== $frontendUser) {
-                $userId = $frontendUser->get('id');
+ 
+            if ($userId) { 
                 $rated = $this->rateRepository->findRecordByUserAndRecordId((int) $userId, (int) $recordid);
-                if (isset($rated) && !empty($rated)) {
-                    $response['rateData'] = reset($rated);
-                }
+                $response['rateData'] = !empty($rated) ? $rated[0] : null;
             }
         }
         

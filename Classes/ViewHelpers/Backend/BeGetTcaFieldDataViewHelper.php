@@ -22,7 +22,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class BeGetTcaFieldDataViewHelper extends AbstractViewHelper
 {
-     
     /**
      * Method initializeArguments
      *
