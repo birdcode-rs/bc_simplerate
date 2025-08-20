@@ -15,6 +15,9 @@
 			<trans-unit id="tx_bcsimplerate_domain_model_rate.tablename" resname="tx_bcsimplerate_domain_model_rate.tablename">
 				<source>Table Name</source>
 			</trans-unit>
+			<trans-unit id="tx_bcsimplerate_domain_model_rate.user" resname="tx_bcsimplerate_domain_model_rate.user">
+				<source>User</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

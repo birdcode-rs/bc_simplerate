@@ -183,7 +183,7 @@ class AdministrationController extends ActionController
             $paginator = new ArrayPaginator(
                 $allAvailableRates,
                 $currentPage,
-                $this->emConfiguration->getPaginateItemsPerPage(),
+                $this->emConfiguration->getPaginateItemsPerPage()
             );
             $pagination = new SimplePagination($paginator);
 

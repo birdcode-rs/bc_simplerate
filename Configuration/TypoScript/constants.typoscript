@@ -17,6 +17,9 @@ plugin.tx_bcsimplerate {
         rTable =
         featureFeuser = 
         
+        orderByAllowed = 
+        overrideFlexformSettingsIfEmpty = storage, rId, rTable, feuser
+        
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Maximum rate number
         maxRateNumber = 5
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Rate icon HTML

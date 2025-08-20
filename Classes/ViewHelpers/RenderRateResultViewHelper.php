@@ -61,7 +61,7 @@ class RenderRateResultViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-         $recordid = $this->arguments['recordid'] ?? 0;
+        $recordid = $this->arguments['recordid'] ?? 0;
         $tablename = $this->arguments['tablename'] ?? '';
         $storage = $this->arguments['storage'] ?? 0;
         $userId = null;
@@ -70,9 +70,6 @@ class RenderRateResultViewHelper extends AbstractViewHelper
         $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
         if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
             $userId = (int) $frontendUser->get('id');
-        }  
-  
-        if ($userId) {
             $results = $this->rateRepository->findRecordByIdAndTablenameForLoggedUsers((int) $recordid, $tablename, (int) $storage);
         } else {
             $results = $this->rateRepository->findRecordByIdAndTablename((int) $recordid, $tablename, (int) $storage);

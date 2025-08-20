@@ -24,6 +24,9 @@ plugin.tx_bcsimplerate {
     }
 
     settings {
+        orderByAllowed = {$plugin.tx_bcsimplerate.settings.orderByAllowed}
+        overrideFlexformSettingsIfEmpty = {$plugin.tx_bcsimplerate.settings.overrideFlexformSettingsIfEmpty}
+
         ### labels
         ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
         reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}

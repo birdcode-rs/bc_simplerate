@@ -1,15 +1,24 @@
-mod.wizards.newContentElement.wizardItems.plugins {
-	elements {
-		bcsimplerate_pi1 {
-			iconIdentifier = ext-bc-simplerate-plugin-pi1
-			title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.title
-			description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.description
-
-			tt_content_defValues {
-				CType = list
-				list_type = bcsimplerate_pi1
-			}
-		}
-	}
-	show = *
+mod.wizards {
+    newContentElement.wizardItems {
+        plugins {
+            elements {
+                #bcsimplerate_pi1 {
+                #    iconIdentifier = ext-bc-simplerate-plugin-pi1
+                #    title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.title
+                #    description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.description
+                #    tt_content_defValues {
+                #        list_type = bcsimplerate_pi1
+                #    }
+                #}
+				bcsimplerate_ratings {
+                    iconIdentifier = ext-bc-simplerate-plugin-ratings
+                    title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.title
+                    description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.description
+                    tt_content_defValues {
+                        list_type = bcsimplerate_ratings
+                    }
+                }
+            }
+        }
+    }
 }

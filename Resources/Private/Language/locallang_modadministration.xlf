@@ -35,7 +35,10 @@
 			</trans-unit>
 			<trans-unit id="administration.action.result.tablehead_note" resname="administration.action.result.tablehead_note">
 				<source>Note</source>
-			</trans-unit>			
+			</trans-unit>	
+			<trans-unit id="administration.action.result.tablehead_recordfeuser" resname="administration.action.result.tablehead_recordfeuser">
+				<source>User</source>
+			</trans-unit>		
         </body>
     </file>
 </xliff>

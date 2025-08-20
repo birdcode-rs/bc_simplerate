@@ -64,7 +64,7 @@ class AdministrationRepository
 
         $result = $queryBuilder
         ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
-        ->addSelect("tablename", "recordid", "pid")
+        ->addSelect("tablename", "recordid", "pid", "feuser")
         ->where(
             $queryBuilder->expr()->eq(
                 "pid",
@@ -81,7 +81,7 @@ class AdministrationRepository
         }
   
         $result->from($this->tablename)
-        ->groupBy("tablename", "recordid", "pid");
+        ->groupBy("tablename", "recordid", "pid", "feuser");
 
         return $result->executeQuery()->fetchAllAssociative();
     }

@@ -14,19 +14,19 @@ declare(strict_types=1);
 
 namespace BirdCode\BcSimplerate\Controller;
 
+use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
+use BirdCode\BcSimplerate\Utility\TypoScript;
+use BirdCode\BcSimplerate\Domain\Model\Rate;  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use Psr\Http\Message\ResponseInterface;
-
-use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
-use BirdCode\BcSimplerate\Utility\TypoScript;
-use BirdCode\BcSimplerate\Domain\Model\Rate;  
-use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
-
+use Psr\Http\Message\ResponseInterface;
 /**
  * RateController.
  */
@@ -37,11 +37,19 @@ class RateController extends ActionController
      *
      * @var array
      */
-    protected $originalSettings = [];
+    protected array $originalSettings = [];
 
+    /**
+     * @var array
+     */
+    private array $defaultOrderings = [
+        'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+    ];
+  
     /** @var RateRepository */
-    public $rateRepository = null;
+    protected RateRepository $rateRepository;
 
+    /** @var PersistenceManager */
     protected PersistenceManager $persistenceManager;
  
     /**
@@ -96,15 +104,19 @@ class RateController extends ActionController
      * @param Rate rate
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @return ResponseInterface
      */
     public function rateItAction(?Rate $rate = null): ResponseInterface
     {
         $userId = null;
-        if ($rate !== null) {
-            $frontendUser = $this->context->getAspect('frontend.user');
+        $frontendUser = $this->context->getAspect('frontend.user');
 
-            if (null === $rate->getFeuser() && null !== $frontendUser) {
-                $userId = $frontendUser->get('id');
+        if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
+            $userId = (int) $frontendUser->get('id');
+        }
+
+        if ($rate !== null) {
+            if (null === $rate->getFeuser() && $userId) {
                 $rate->setFeuser($userId);
             }
 
@@ -170,15 +182,44 @@ class RateController extends ActionController
             setcookie('tmpBcRateCookie');
         }
  
-        $this->view->assign('rate', $rate);
-        $frontendUser = $this->context->getAspect('frontend.user');
- 
-        if (null !== $frontendUser) {
-            $userId = $frontendUser->get('id');
-        }
- 
+        $this->view->assign('rate', $rate);  
         $this->view->assign('userId', $userId);
         $this->view->assign('user', $frontendUser);
+
+        return $this->htmlResponse();
+    }
+ 
+    /**
+     * ratingsAction.
+     * @param int $currentPage
+     * @return ResponseInterface
+     */
+    public function ratingsAction(int $currentPage = 1): ResponseInterface
+    {   
+        $ratings = $this->rateRepository->findByType($this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('frontend.user') ? $this->context->getAspect('frontend.user')->get('id'):null);
+
+        if (!empty($this->settings['limit'])) {
+            $ratings = $ratings->getQuery()->setLimit((int) $this->settings['limit'])->execute();
+        }
+
+        // paginate.itemsPerPage
+        if ($ratings) {
+            $paginator = new QueryResultPaginator(
+                $ratings,
+                $currentPage,
+                2
+            );
+            $pagination = new SimplePagination($paginator);
+
+            $this->view->assignMultiple([
+                'ratings' => $ratings,
+                'paginator' => $paginator,
+                'paginatorItems' => $paginator->getPaginatedItems(),
+                'pagination' => $pagination,
+                'allPageNumbers' => range(1, $pagination->getLastPageNumber()) 
+            ]);
+        }
+  
         return $this->htmlResponse();
     }
  
@@ -246,7 +287,7 @@ class RateController extends ActionController
             }
             $originalSettings['generateRating'] = $generateRating;
         }
-
+        
         $this->settings = $originalSettings;
     }
 }

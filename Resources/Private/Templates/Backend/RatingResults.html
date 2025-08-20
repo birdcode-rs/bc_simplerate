@@ -24,7 +24,7 @@
               </f:if>
           </div>
       </div>
-
+ 
       <f:if condition="{paginatorItems}">
         <div class="table-fit">
             <table class="table table-striped table-hover">
@@ -34,6 +34,7 @@
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordid" /></th>
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_tablename" /></th>
                   <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordname" /></th>
+                  <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordfeuser" /></th>
                 <tr></thead>
                 <tbody>
                   <f:for each="{paginatorItems}" as="item" iteration="iterator">
@@ -45,6 +46,7 @@
                           <f:variable name="tcaTitle">{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:variable>
                           <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:else></f:if> - [{item.tablename}]</td>
                         <td>{bcsrbe:beGetFieldData(recordid:item.recordid, tablename:item.tablename, config:featureGetRecordsField)}</td>
+                        <td><f:if condition="{item.feuser}">{bcsrbe:beGetFieldData(recordid:item.feuser, tablename:'fe_users', config:featureGetRecordsField)} [{item.feuser}]</f:if></td>
                       </tr>
                   </f:for>
                 </tbody>

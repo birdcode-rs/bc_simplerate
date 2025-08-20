@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace BirdCode\BcSimplerate\ViewHelpers;
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use BirdCode\BcSimplerate\Domain\Model\Rate;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -62,9 +63,9 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
     /**
      * Method render
      *
-     * @return array|null
+     * @return Rate|null
      */
-    public function render(): ?array
+    public function render(): ?Rate
     {
         $recordid = (int)$this->arguments['recordid'];
         $tablename = (string)$this->arguments['tablename'];
@@ -84,6 +85,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
             $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid);
             $rateData = reset($rated) ?? null;
         } elseif (isset($_COOKIE[$cookiename]) && !$featureFeuser) {
+
             // 25|5, 30|3
             $cookieValue = (string)$_COOKIE[$cookiename];
             $cookieItems = explode(",", $cookieValue);

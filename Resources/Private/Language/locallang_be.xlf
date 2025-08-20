@@ -9,6 +9,12 @@
 			<trans-unit id="tx_bcsimplerate_pi1.description" resname="tx_bcsimplerate_pi1.description">
 				<source>Rate any record</source>
 			</trans-unit>
+			<trans-unit id="bcsimplerate_ratings.title" resname="bcsimplerate_ratings.title">
+				<source>Rating resutls</source>
+			</trans-unit>
+			<trans-unit id="bcsimplerate_ratings.description" resname="bcsimplerate_ratings.description">
+				<source>Show different set of rating results</source>
+			</trans-unit>
 			<trans-unit id="extmng.showAdminModule" xml:space="preserve">
 				<source>Show administration Rate module:Backend module</source>
 			</trans-unit>

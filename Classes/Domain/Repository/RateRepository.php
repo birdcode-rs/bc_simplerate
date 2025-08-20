@@ -13,7 +13,9 @@
 
 namespace BirdCode\BcSimplerate\Domain\Repository;
 
+use BirdCode\BcSimplerate\Domain\Model\Rate;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  
 /**
  * RateRepository
@@ -45,8 +47,7 @@ class RateRepository extends Repository
             $query->greaterThan('rate', 0),
             $query->equals('recordid', $uid)
         ];
-        
-     
+         
         if (isset($tablename)) {
             $constraints[] = $query->equals('tablename', $tablename);
         }
@@ -177,6 +178,40 @@ class RateRepository extends Repository
         $query->matching($query->logicalAnd(...$constraints));
 
         $results = $query->execute()->toArray();
+        return $results;
+    }
+
+    
+    /**
+     * Method findByType
+     *
+     * @param string $type
+     * @param string $pid
+     * @param ?int $feuser
+     *
+     * @return QueryResultInterface
+     */
+    public function findByType(string $type, string $pid, ?int $feuser = null): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+ 
+        $constraints = [
+            $query->greaterThan('rate', 0),
+            $query->in('pid', explode(',', $pid))
+        ];
+
+        if ($type == '1') {
+            $constraints[] = $query->equals('feuser', 0);
+        } elseif ($type == '2' && null !== $feuser) {
+            $constraints[] = $query->equals('feuser', $feuser);
+        } else {
+            $constraints[] = $query->greaterThan('feuser', 0);
+        }
+
+        $query->matching($query->logicalAnd(...$constraints));
+        $results = $query->execute();
+
         return $results;
     }
 }
