@@ -13,13 +13,13 @@ declare(strict_types=1);
  ***/
 
 namespace BirdCode\BcSimplerate\Controller;
- 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+
 use BirdCode\BcSimplerate\Domain\Model\Dto\EmConfiguration;
 use BirdCode\BcSimplerate\Domain\Model\Rate; 
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use BirdCode\BcSimplerate\Domain\Repository\AdministrationRepository;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\Components\Menu\Menu;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
@@ -28,13 +28,12 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
-use TYPO3\CMS\Core\Pagination\ArrayPaginator;
-
-
+ 
 /**
  * The backend controller for the BcSimplerate extension
  */
@@ -42,14 +41,11 @@ class AdministrationController extends ActionController
 {
     protected int $pageUid = 0;
  
-    /** @var AdministrationRepository */
-    protected $administrationRepository;
+    protected AdministrationRepository $administrationRepository;
 
-    /** @var RateRepository */
-    protected $rateRepository;
-
-    /** @var EmConfiguration */
-    protected $emConfiguration;
+    protected RateRepository $rateRepository;
+ 
+    protected EmConfiguration $emConfiguration;
      
     /**
      * Method injectAdministrationRepository
@@ -85,8 +81,7 @@ class AdministrationController extends ActionController
         private readonly IconFactory $iconFactory,
         private readonly LanguageServiceFactory $languageServiceFactory,
     ) {}
-
-
+ 
     /**
      * @return array<string,scalar>|false
      */
@@ -98,7 +93,6 @@ class AdministrationController extends ActionController
             $permissionClause,
         );
     }
-    
      
     /**
      * Method initializeAction
@@ -144,7 +138,7 @@ class AdministrationController extends ActionController
                 'paginator' => $paginator,
                 'paginatorItems' => $paginator->getPaginatedItems(),
                 'pagination' => $pagination,
-                'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+                'totalPages' => range(1, $pagination->getLastPageNumber()),
                 'featureGetRecordsField' => $this->emConfiguration->getFeatureGetRecordsFieldArray()
             ]);
         }
@@ -192,7 +186,7 @@ class AdministrationController extends ActionController
                 'paginator' => $paginator,
                 'paginatorItems' => $paginator->getPaginatedItems(),
                 'pagination' => $pagination,
-                'allPageNumbers' => range(1, $pagination->getLastPageNumber()),
+                'totalPages' => range(1, $pagination->getLastPageNumber()),
                 'featureGetRecordsField' => $this->emConfiguration->getFeatureGetRecordsFieldArray()
             ]);
         }
@@ -207,15 +201,13 @@ class AdministrationController extends ActionController
         return $view->renderResponse('Backend/RatingResults');
     }
      
-     
     /**
      * Method initializeModuleTemplate
      *
      * @return ModuleTemplate
      */
-    protected function initializeModuleTemplate(
-        ServerRequestInterface $request,
-    ): ModuleTemplate {
+    protected function initializeModuleTemplate(ServerRequestInterface $request): ModuleTemplate 
+    {
         $view = $this->moduleTemplateFactory->create($request);
 
         $context = '';

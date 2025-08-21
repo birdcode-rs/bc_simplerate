@@ -121,6 +121,9 @@ $(document).ready(function() {
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(' An error occurred. Please refresh the page and try again.');
+                    alert(xhr);
+                    alert(ajaxOptions);
+                    alert(thrownError);
                     //form.reset();
                     window.tmpBcRateCookieValueFe = 0;
                     $.removeCookie('tmpBcRateCookieFe');
@@ -230,8 +233,10 @@ $(document).ready(function() {
                     window.tmpBcRateCookieValue = 0;
                     $.removeCookie('tmpBcRateCookie');
                 },
-                error: function (xhr, ajaxOptions, thrownError) {
+                error: function (xhr, status, error) {
                     alert(' An error occurred. Please refresh the page and try again.');
+                    console.error("Error:", status, error);
+                    console.log("Response:", xhr.responseText);
                     //form.reset();
                     window.tmpBcRateCookieValue = 0;
                     $.removeCookie('tmpBcRateCookie');

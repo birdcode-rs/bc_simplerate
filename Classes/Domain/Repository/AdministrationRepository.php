@@ -25,7 +25,7 @@ class AdministrationRepository
 {
     /* main table of the simplerate plugin */
     protected string $tablename = 'tx_bcsimplerate_domain_model_rate';
-     
+      
     /**
      * Method generateFilter
      *
@@ -64,7 +64,7 @@ class AdministrationRepository
 
         $result = $queryBuilder
         ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
-        ->addSelect("tablename", "recordid", "pid", "feuser")
+        ->addSelect("tablename", "recordid", "pid", "feuser", "recordlanguage")
         ->where(
             $queryBuilder->expr()->eq(
                 "pid",
@@ -81,7 +81,7 @@ class AdministrationRepository
         }
   
         $result->from($this->tablename)
-        ->groupBy("tablename", "recordid", "pid", "feuser");
+        ->groupBy("tablename", "recordid", "pid");
 
         return $result->executeQuery()->fetchAllAssociative();
     }

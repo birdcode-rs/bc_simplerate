@@ -17,6 +17,7 @@ namespace BirdCode\BcSimplerate\ViewHelpers;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -25,9 +26,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RenderRateResultViewHelper extends AbstractViewHelper
 {
-    /** @var RateRepository */
-    protected $rateRepository;
-
+    protected RateRepository $rateRepository;
+ 
     /**
      * Inject the RateRepository
      *
@@ -48,10 +48,10 @@ class RenderRateResultViewHelper extends AbstractViewHelper
         parent::initializeArguments();
 
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('recordid', 'integer', 'ID of the record', true, 0 );
+        $this->registerArgument('recordid', 'int', 'ID of the record', true, 0 );
         $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
-        $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
-        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);
+        $this->registerArgument('storage', 'int', 'Record storage ID', true, 0);
+        $this->registerArgument('featureFeuser', 'int', 'Define if Feuser feature is enabled', false, 0);
     }
      
     /**
@@ -61,18 +61,20 @@ class RenderRateResultViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-        $recordid = $this->arguments['recordid'] ?? 0;
+        $recordid = (int) $this->arguments['recordid'] ?? 0;
         $tablename = $this->arguments['tablename'] ?? '';
-        $storage = $this->arguments['storage'] ?? 0;
+        $storage = (int) $this->arguments['storage'] ?? 0;
         $userId = null;
         $response = [];
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $languageUid = (int) $languageAspect->getId();
 
         $frontendUser = GeneralUtility::makeInstance(Context::class)->getAspect('frontend.user');
         if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
             $userId = (int) $frontendUser->get('id');
-            $results = $this->rateRepository->findRecordByIdAndTablenameForLoggedUsers((int) $recordid, $tablename, (int) $storage);
+            $results = $this->rateRepository->findRecordByIdAndTablenameForLoggedUsers($recordid, $tablename, $storage, $languageUid);
         } else {
-            $results = $this->rateRepository->findRecordByIdAndTablename((int) $recordid, $tablename, (int) $storage);
+            $results = $this->rateRepository->findRecordByIdAndTablename($recordid, $tablename, $storage, $languageUid);
         }
         
         if (is_array($results) && !empty($results)) {
@@ -92,7 +94,7 @@ class RenderRateResultViewHelper extends AbstractViewHelper
             ];
  
             if ($userId) { 
-                $rated = $this->rateRepository->findRecordByUserAndRecordId((int) $userId, (int) $recordid);
+                $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid, $languageUid);
                 $response['rateData'] = !empty($rated) ? $rated[0] : null;
             }
         }

@@ -50,8 +50,7 @@ class EmConfiguration
 
     /** @var string */
     protected $featureGetRecordsField = '[{}]';
-     
-     
+      
     /**
      * Method setShowAdminModule
      *
@@ -95,8 +94,7 @@ class EmConfiguration
     {
         return (int)$this->paginateItemsPerPage;
     }
-
-     
+ 
     /**
      * Method setFeatureGetRecordsField
      *

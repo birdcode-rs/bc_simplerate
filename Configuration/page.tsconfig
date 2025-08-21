@@ -1,1 +1,1 @@
-# @import 'EXT:bc_simplerate/Configuration/TSconfig/includePageTSconfig.tsconfig'
+@import 'EXT:bc_base/Configuration/TsConfig/NewContentElement.tsconfig'

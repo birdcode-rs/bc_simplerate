@@ -27,6 +27,9 @@
 			<trans-unit id="administration.action.result.tablehead_recordid" resname="administration.action.result.tablehead_recordid">
 				<source>Record ID</source>
 			</trans-unit>
+			<trans-unit id="administration.action.result.tablehead_recordlanguage" resname="administration.action.result.tablehead_recordlanguage">
+				<source>Record Language</source>
+			</trans-unit>
 			<trans-unit id="administration.action.result.tablehead_recordname" resname="administration.action.result.tablehead_recordname">
 				<source>Record name</source>
 			</trans-unit>

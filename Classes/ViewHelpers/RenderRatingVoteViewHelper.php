@@ -18,6 +18,7 @@ use BirdCode\BcSimplerate\Domain\Model\Rate;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -26,13 +27,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RenderRatingVoteViewHelper extends AbstractViewHelper
 {
-    /**
-     * rateRepository.
-     *
-     * @var RateRepository
-     */
     public RateRepository $rateRepository;
-
+ 
     /**
      * Inject the RateRepository
      *
@@ -42,7 +38,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
     {
         $this->rateRepository = $rateRepository;
     }
-     
+ 
     /**
      * Method initializeArguments
      *
@@ -72,6 +68,9 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
         $cookiename = (string)$this->arguments['cookiename'];
         $storage = (int)$this->arguments['storage'];
         $featureFeuser = (int)$this->arguments['featureFeuser'];
+
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $languageUid = (int) $languageAspect->getId();
  
         $rateData = null;
         $userId = null;
@@ -82,7 +81,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
         }
  
         if ($userId && $featureFeuser) {
-            $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid);
+            $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid, $languageUid);
             $rateData = reset($rated) ?? null;
         } elseif (isset($_COOKIE[$cookiename]) && !$featureFeuser) {
 
@@ -94,7 +93,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
                 if (isset($value)) {
                     $uidAndRate = explode("|", $value);
                     if ($uidAndRate[0] == $recordid) {
-                        $rated = $this->rateRepository->findByParams((int) $uidAndRate[0], (string) $tablename, (int) $uidAndRate[1], (int) $storage);
+                        $rated = $this->rateRepository->findByParams((int) $uidAndRate[0], $tablename, (int) $uidAndRate[1], $storage, $languageUid);
                         if (isset($rated) && !empty($rated)) {
                             $rateData = reset($rated);
                             break;

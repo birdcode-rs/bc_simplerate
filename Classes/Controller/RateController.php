@@ -19,13 +19,13 @@ use BirdCode\BcSimplerate\Utility\TypoScript;
 use BirdCode\BcSimplerate\Domain\Model\Rate;  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
-use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Core\Context\Context;
 use Psr\Http\Message\ResponseInterface;
 /**
  * RateController.
@@ -38,18 +38,9 @@ class RateController extends ActionController
      * @var array
      */
     protected array $originalSettings = [];
-
-    /**
-     * @var array
-     */
-    private array $defaultOrderings = [
-        'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
-    ];
-  
-    /** @var RateRepository */
+ 
     protected RateRepository $rateRepository;
-
-    /** @var PersistenceManager */
+ 
     protected PersistenceManager $persistenceManager;
  
     /**
@@ -97,13 +88,12 @@ class RateController extends ActionController
             $view->assign('pageData', $GLOBALS['TSFE']->page);
         }
     }
- 
+  
     /**
-     * rateIt.
+     * Method rateItAction
      *
-     * @param Rate rate
+     * @param ?Rate $rate
      *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      * @return ResponseInterface
      */
     public function rateItAction(?Rate $rate = null): ResponseInterface
@@ -114,11 +104,13 @@ class RateController extends ActionController
         if ($frontendUser !== null && $frontendUser->isLoggedIn()) {
             $userId = (int) $frontendUser->get('id');
         }
-
+ 
         if ($rate !== null) {
             if (null === $rate->getFeuser() && $userId) {
                 $rate->setFeuser($userId);
             }
+
+            $rate->setRecordlanguage($this->context->getAspect('language')->getId());
 
             // validate if note feature is enable and active
             if (null !== ($this->settings['feature']) && is_array(($this->settings['feature'])) && $this->settings['feature']['noteFieldEnabled'] && $this->settings['feature']['noteFieldRequired']) {
@@ -196,19 +188,32 @@ class RateController extends ActionController
      */
     public function ratingsAction(int $currentPage = 1): ResponseInterface
     {   
-        $ratings = $this->rateRepository->findByType($this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('frontend.user') ? $this->context->getAspect('frontend.user')->get('id'):null);
+        if (empty($this->settings['displayMode'])) {
+            $ratings = $this->rateRepository->findByType($this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('frontend.user') ? $this->context->getAspect('frontend.user')->get('id'):null);
 
-        if (!empty($this->settings['limit'])) {
-            $ratings = $ratings->getQuery()->setLimit((int) $this->settings['limit'])->execute();
+            if (!empty($this->settings['limit'])) {
+                $ratings = $ratings->getQuery()->setLimit((int) $this->settings['limit'])->execute();
+            }
+        } else {
+            $ratings = $this->rateRepository->findByTypeWithDisplayMode($this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('language')->getId(), $this->settings['limit']);
         }
 
         // paginate.itemsPerPage
         if ($ratings) {
-            $paginator = new QueryResultPaginator(
-                $ratings,
-                $currentPage,
-                2
-            );
+            if (empty($this->settings['displayMode'])) {
+                $paginator = new QueryResultPaginator(
+                    $ratings,
+                    $currentPage,
+                    (int) ($this->settings['paginate']['itemsPerPage'] ? $this->settings['paginate']['itemsPerPage']:10)
+                );
+            } else {
+                $paginator = new ArrayPaginator(
+                    $ratings,
+                    $currentPage,
+                    (int) ($this->settings['paginate']['itemsPerPage'] ? $this->settings['paginate']['itemsPerPage']:10)
+                );
+            }
+
             $pagination = new SimplePagination($paginator);
 
             $this->view->assignMultiple([
@@ -216,7 +221,9 @@ class RateController extends ActionController
                 'paginator' => $paginator,
                 'paginatorItems' => $paginator->getPaginatedItems(),
                 'pagination' => $pagination,
-                'allPageNumbers' => range(1, $pagination->getLastPageNumber()) 
+                'totalPages' => range(1, $pagination->getLastPageNumber()),
+                'actionName' => str_replace("Action", "", __FUNCTION__),
+                'currentPage' => $currentPage
             ]);
         }
   

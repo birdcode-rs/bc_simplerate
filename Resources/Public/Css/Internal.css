@@ -160,12 +160,12 @@ span.no-rate {
 }
 
 @media screen and (min-width: 520px) {
-    .simplerate_wrapper{
+    .simplerate_wrapper {
         flex-direction: row;
         gap: 10px;
         align-items: center;
     }
-    .simplerate_text{
+    .simplerate_text {
         font-size:22px;
     }
     .simplerate_form label {
@@ -279,4 +279,56 @@ span.no-rate {
 #p .simplerate_form .note-field-wrap textarea.required-field,
 .simplerate_form .note-field-wrap textarea.required-field {
     border-color: #961157 !important;
+}
+
+/* Plugin Ratings */
+.frame-type-bcsimplerate_ratings header {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+.tx-bc-simplerate .rating-results {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.tx-bc-simplerate .rating-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+}
+.tx-bc-simplerate .rating-list-item {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 300px;
+}
+.tx-bc-simplerate .rating-box {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 5px;
+    flex-direction: column;
+}
+.tx-bc-simplerate .rated-item {
+    color: #333;
+    font-weight: 500;
+}
+.tx-bc-simplerate .rated-by {
+    color: #555;
+    font-size: 14px;
+}
+.tx-bc-simplerate .pagination {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.tx-bc-simplerate .pagination ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+.tx-bc-simplerate .pagination ul li {
+    list-style-type: none;
 }

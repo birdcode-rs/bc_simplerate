@@ -38,15 +38,5 @@ unset($boot);
     plugin {
         tx_bcsimplerate_ratings.view.pluginNamespace = tx_bcsimplerate_pi1
     }
-    config.pageTitleProviders {
-        reference {
-            provider = BirdCode\BcBase\Seo\ReferenceTitleProvider
-            before = altPageTitle,record,seo
-        }
-        user {
-            provider = BirdCode\BcBase\Seo\UserTitleProvider
-            before = altPageTitle,record,seo
-        }
-    }
 '));
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['bcsr'] = ['BirdCode\BcSimplerate\ViewHelpers']; 

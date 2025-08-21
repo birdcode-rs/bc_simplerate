@@ -31,6 +31,13 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $recordid;
+
+    /**
+     * recordlanguage.
+     *
+     * @var int
+     */
+    protected $recordlanguage;
     
      /**
      * tablename.
@@ -102,6 +109,28 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setRecordid($recordid)
     {
         $this->recordid = $recordid;
+    }
+
+    /**
+     * get recordid.
+     *
+     * @return int $recordid
+     */
+    public function getRecordlanguage()
+    {
+        return $this->recordlanguage;
+    }
+
+    /**
+     * set recordlanguage.
+     *
+     * @param int $recordlanguage
+     *
+     * @return void
+     */
+    public function setRecordlanguage($recordlanguage)
+    {
+        $this->recordlanguage = $recordlanguage;
     }
 
     /**

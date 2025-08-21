@@ -9,16 +9,31 @@ plugin.tx_bcsimplerate {
     }
     persistence {
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Default storage PID
-        storagePid = 
+        # storagePid = 
     }
     settings {
-        cookiename = 
+        cookiename = rateEntity
         rId = 
-        rTable =
+        rTable = pages
         featureFeuser = 
-        
+
+        # cat=plugin.tx_bcsimplerate//r; type=int; label=Show type of results: 0|Logged-in Users Only,1|Anonymous Users,2|Current User
+        resultType = 
+        # cat=plugin.tx_bcsimplerate//r; type=int; label=Show display mode: 0|Detailed, 1|Total Score
+        displayMode = 
+
         orderByAllowed = 
-        overrideFlexformSettingsIfEmpty = storage, rId, rTable, feuser
+        # cat=plugin.tx_bcsimplerate//r; type=string; override field via flexfrom settings
+        overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode
+
+        paginate {
+            # cat=plugin.tx_bcsimplerate//p; type=int; label=Paginate items per page
+            itemsPerPage = 5
+            # cat=plugin.tx_bcsimplerate//p; type=int; label=Paginate insert Above
+            insertAbove = 0
+            # cat=plugin.tx_bcsimplerate//p; type=int; label=Paginate insert Below
+            insertBelow = 1
+        }
         
         # cat=plugin.tx_bcsimplerate//a; type=string; label=Maximum rate number
         maxRateNumber = 5
@@ -48,7 +63,7 @@ plugin.tx_bcsimplerate {
             # cat=plugin.tx_bcsimplerate//a; type=string; label=Note field Label
             noteFieldLabel = Add comment to review
             # cat=plugin.tx_bcsimplerate//a; type=string; label=Enable FE user ratings
-            feuser = 
+            feuser = 1
         }
     }
 }

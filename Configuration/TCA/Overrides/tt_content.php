@@ -7,9 +7,8 @@ defined('TYPO3') or exit();
 
 
  /***************
- * Plugin
+ * Plugins
  */
-
 (static function (): void {
     ExtensionUtility::registerPlugin(
         'BcSimplerate',

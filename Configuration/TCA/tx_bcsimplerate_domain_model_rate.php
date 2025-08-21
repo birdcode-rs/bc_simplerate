@@ -25,12 +25,12 @@ return [
         'iconfile' => 'EXT:bc_simplerate/Resources/Public/Icons/star-rating-icon.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'rate, recordid, tablename, feuser',
+        'showRecordFieldList' => 'rate, recordid, tablename, feuser, recordlanguage',
     ],
     'types' => [
         '1' => [
             'showitem' => '
-                sys_language_uid, l10n_parent, l10n_diffsource, hidden, rate, recordid, tablename, note, feuser,
+                sys_language_uid, l10n_parent, l10n_diffsource, hidden, rate, recordid, recordlanguage, tablename, note, feuser,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime
            ',
         ],
@@ -102,6 +102,15 @@ return [
         'recordid' => [
             'exclude' => true,
             'label' => 'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_db.xlf:tx_bcsimplerate_domain_model_rate.recordid',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'recordlanguage' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_db.xlf:tx_bcsimplerate_domain_model_rate.recordlanguage',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

@@ -27,6 +27,15 @@ plugin.tx_bcsimplerate {
         orderByAllowed = {$plugin.tx_bcsimplerate.settings.orderByAllowed}
         overrideFlexformSettingsIfEmpty = {$plugin.tx_bcsimplerate.settings.overrideFlexformSettingsIfEmpty}
 
+        resultType = {$plugin.tx_bcsimplerate.settings.resultType}
+        displayMode = {$plugin.tx_bcsimplerate.settings.displayMode}
+
+        paginate {
+            itemsPerPage = {$plugin.tx_bcsimplerate.settings.paginate.itemsPerPage}
+            insertAbove = {$plugin.tx_bcsimplerate.settings.paginate.insertAbove}
+            insertBelow = {$plugin.tx_bcsimplerate.settings.paginate.insertBelow}
+        }
+
         ### labels
         ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
         reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
@@ -58,12 +67,18 @@ ratePage = PAGE
 ratePage {
 	typeNum = 20250302
 
-	10 < tt_content.list.20.bcsimplerate_pi1
-	10.settings <= plugin.tx_bcsimplerate.settings
+	10 = USER
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = BcSimplerate
+        pluginName = Pi1
+        vendorName = BirdCode
+        settings < plugin.tx_bcsimplerate.settings
+    }
 
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:text/plain; charset=UTF-8
+		additionalHeaders = Content-type:application/json; charset=UTF-8
 		xhtml_cleaning = 0
 		admPanel = 0
 		debug = 0

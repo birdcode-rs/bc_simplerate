@@ -36,7 +36,7 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
         parent::initializeArguments(); 
 
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('recordid', 'integer', 'ID of the record', true, 0 );
+        $this->registerArgument('recordid', 'int', 'ID of the record', true, 0 );
         $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
         $this->registerArgument('config','array', 'Config from Dto Em Config', true, []);
     }

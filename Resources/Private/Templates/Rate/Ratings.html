@@ -1,12 +1,37 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-	  xmlns:bcbs="http://typo3.org/ns/BirdCode/BcBase/ViewHelpers"
 	  data-namespace-typo3-fluid="true">
 <f:layout name="Default"/>
 
 <f:section name="content">
-    <f:debug title="test" inline="0">{ratings}</f:debug>
-    <f:debug title="" inline="1">{paginator}</f:debug>
-    <f:for each="{ratings}" as="rating" iteration="i">
-         
-    </f:for>
+
+    <f:if condition="{settings.hidePagination}">
+        <f:then> 
+            <div class="rating-results">
+                 <ul class="rating-list">
+                    <f:for each="{ratings}" as="rateItem" iteration="i">
+                        <f:render partial="RateItem" arguments="{_all}" />
+                    </f:for>
+                </ul>
+            </div>
+        </f:then>
+        <f:else>
+            <f:if condition="{paginatorItems}">
+                <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertAbove} && {settings.hidePagination} == 0">
+                    <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage}" />
+                </f:if>
+
+                <div class="rating-results">
+                    <ul class="rating-list">
+                        <f:for each="{paginatorItems}" as="rateItem" iteration="iterator">
+                           <f:render partial="RateItem" arguments="{_all}" />
+                        </f:for>
+                    </ul>
+                </div>
+
+                <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertBelow} && {settings.hidePagination} == 0">
+                   <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage}" />
+                </f:if>
+            </f:if>            
+        </f:else>
+    </f:if>
 </f:section>
