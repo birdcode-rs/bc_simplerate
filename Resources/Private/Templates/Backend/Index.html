@@ -35,6 +35,7 @@
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_tablename" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordname" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_note" /></th>
+                <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordlanguage" /></th>
                 <th><f:translate key="LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_modadministration.xlf:administration.action.result.tablehead_recordfeuser" /></th> 
               <tr></thead>
                 <tbody>
@@ -46,7 +47,8 @@
                           <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:rateItem.tablename, fieldname:'title')}</f:else></f:if> - [{rateItem.tablename}]</td>
                         <td>{bcsrbe:beGetFieldData(recordid:rateItem.recordid, tablename:rateItem.tablename, config:featureGetRecordsField)}</td>
                         <td style="min-width: 200px;">{rateItem.note}</td>
-                        <td><f:if condition="{item.feuser}">{bcsrbe:beGetFieldData(recordid:item.feuser, tablename:'fe_users', config:featureGetRecordsField)} [{item.feuser}]</f:if></td>
+                        <td>{rateItem.recordlanguage}</td>
+                        <td><f:if condition="{rateItem.feuser}">{bcsrbe:beGetFieldData(recordid:rateItem.feuser, tablename:'fe_users', config:featureGetRecordsField)} [{rateItem.feuser}]</f:if></td>
                       </tr>
                   </f:for>
                 </tbody>
