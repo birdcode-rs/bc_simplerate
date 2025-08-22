@@ -58,7 +58,7 @@ class Rate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $roundrate = '';
+    public $roundrate = '';
 
     /**
      * feuser.

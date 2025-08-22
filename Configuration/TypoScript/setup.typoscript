@@ -29,6 +29,8 @@ plugin.tx_bcsimplerate {
 
         resultType = {$plugin.tx_bcsimplerate.settings.resultType}
         displayMode = {$plugin.tx_bcsimplerate.settings.displayMode}
+        topRated = {$plugin.tx_bcsimplerate.settings.topRated}
+        recordsFromTable  = {$plugin.tx_bcsimplerate.settings.recordsFromTable}
 
         paginate {
             itemsPerPage = {$plugin.tx_bcsimplerate.settings.paginate.itemsPerPage}

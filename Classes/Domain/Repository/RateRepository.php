@@ -28,24 +28,18 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class RateRepository extends Repository
 {
-    /**
-     * @var array
-     */
-    protected $defaultOrderings = [
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
-    ];
-
     /* main table of the simplerate plugin */
     protected string $tablename = 'tx_bcsimplerate_domain_model_rate';
- 
+  
     /**
-     * Finds a record by UID and table name, optionally filtered by PID.
+     * Method Finds a record by UID and table name, optionally filtered by PID.
      *
-     * @param int uid
-     * @param string tablename
-     * @param ?int pid
+     * @param int $uid 
+     * @param string $tablename 
+     * @param ?int $pid 
+     * @param int $languageId 
      *
-     * @return ?array
+     * @return array
      */
     public function findRecordByIdAndTablename(int $uid, string $tablename, ?int $pid = null, int $languageId = 0): ?array
     {
@@ -66,21 +60,22 @@ class RateRepository extends Repository
             $constraints[] = $query->equals('pid', $pid);
         }
  
-        $query->matching($query->logicalAnd(...$constraints));
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
 
         $results = $query->execute()->toArray();
  
         return $results;
     }
-
+ 
     /**
-     * Finds a record by UID and table name, optionally filtered by PID, for loggedin users.
+     * Method - Finds a record by UID and table name, optionally filtered by PID, for loggedin users.
      *
-     * @param int uid
-     * @param string tablename
-     * @param ?int pid
+     * @param int $uid 
+     * @param string $tablename 
+     * @param ?int $pid 
+     * @param int $languageId 
      *
-     * @return ?array
+     * @return array
      */
     public function findRecordByIdAndTablenameForLoggedUsers(int $uid, string $tablename, ?int $pid = null, int $languageId = 0): ?array
     {
@@ -101,22 +96,24 @@ class RateRepository extends Repository
             $constraints[] = $query->equals('pid', $pid);
         }
  
-        $query->matching($query->logicalAnd(...$constraints));
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
 
         $results = $query->execute()->toArray();
         return $results;
     }
 
+     
     /**
-     * Finds a rating by full set of parameters.
+     * Method findByParams
      *
-     * @param int uid
-     * @param string tablename
-     * @param int ratedNumber
-     * @param int pid
-     * @param int feuser 
+     * @param int $uid 
+     * @param string $tablename 
+     * @param int $ratedNumber 
+     * @param int $pid 
+     * @param ?int $feuser 
+     * @param int $languageId 
      *
-     * @return ?array
+     * @return array
      */
     public function findByParams(int $uid, string $tablename, int $ratedNumber, int $pid, ?int $feuser = null, int $languageId = 0): ?array
     {
@@ -142,18 +139,19 @@ class RateRepository extends Repository
             $constraints[] = $query->equals('feuser', $feuser);
         }
 
-        $query->matching($query->logicalAnd(...$constraints));
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
 
         $results = $query->execute()->toArray();
         return $results;
     } 
-
+     
     /**
-     *  Finds rated records by frontend user.
+     * Method findRecordByUser
      *
-     * @param int user
+     * @param int $feuser 
+     * @param int $languageId 
      *
-     * @return ?array
+     * @return array
      */
     public function findRecordByUser(int $feuser, int $languageId = 0): ?array
     {
@@ -167,18 +165,21 @@ class RateRepository extends Repository
             $query->equals('recordlanguage', $languageId)
         ];
 
-        $query->matching($query->logicalAnd(...$constraints));
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
 
         $results = $query->execute()->toArray();
         return $results;
     }
 
+     
     /**
-     * Finds a rated record by user and record ID.
+     * Method findRecordByUserAndRecordId
      *
-     * @param int user
-     * @param int recordid
-     * @return ?array
+     * @param int $feuser 
+     * @param int $recordid 
+     * @param int $languageId 
+     *
+     * @return array
      */
     public function findRecordByUserAndRecordId(int $feuser, int $recordid, int $languageId = 0): ?array
     {
@@ -193,23 +194,25 @@ class RateRepository extends Repository
             $query->equals('recordlanguage', $languageId)
         ];
 
-        $query->matching($query->logicalAnd(...$constraints));
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
 
         $results = $query->execute()->toArray();
         return $results;
     }
   
+     
     /**
      * Method findByType
      *
-     * @param string $type
-     * @param string $pid
-     * @param ?int $feuser
-     * @param int $languageId
+     * @param string $type 
+     * @param string $pid 
+     * @param ?int $feuser 
+     * @param int $languageId 
+     * @param string $topRated 
      *
      * @return QueryResultInterface
      */
-    public function findByType(string $type, string $pid, ?int $feuser = null, int $languageId = 0): QueryResultInterface
+    public function findByType(string $type, string $pid, ?int $feuser = null, int $languageId = 0, string $topRated = '', string $recordtable = ''): QueryResultInterface
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -228,13 +231,21 @@ class RateRepository extends Repository
         } else {
             $constraints[] = $query->greaterThan('feuser', 0);
         }
-
-        $query->matching($query->logicalAnd(...$constraints));
+ 
+        if (!empty($topRated)) {
+            $constraints[] = $query->equals('rate', 5); 
+        }
+ 
+        if (!empty($recordtable)) {
+            $constraints[] = $query->equals('tablename', $recordtable); 
+        }
+ 
+        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
         $results = $query->execute();
 
         return $results;
     }
-   
+    
     /**
      * Method findByTypeWithDisplayMode
      *
@@ -242,48 +253,74 @@ class RateRepository extends Repository
      * @param string $pid
      * @param int $languageId
      * @param string $limit
+     * @param string $topRated
      *
      * @return array
      */
-    public function findByTypeWithDisplayMode(string $type, string $pid, int $languageId = 0, string $limit = '10'): ?array
+    public function findByTypeWithDisplayMode(string $type, string $pid, int $languageId = 0, string $limit = '10', string $topRated = '', $recordtable = ''): ?array
     {
         $queryBuilder = $this->getQueryBuilder($this->tablename);
- 
-        if ($type == '1') {
-            $where = $queryBuilder->expr()->gt(
+
+        $constraints = [];
+
+        if (!empty($type) && $type == '1') {
+            $constraints[] = $queryBuilder->expr()->gt(
                 "feuser",
                 $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
             );
         } else {
-            $where = $queryBuilder->expr()->eq(
+            $constraints[] = $queryBuilder->expr()->eq(
                 "feuser",
                 $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
             );
         }
-         
-        $result = $queryBuilder
-        ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
-        ->addSelect("tablename", "recordid", "pid", "recordlanguage")
-        ->where(
-            $queryBuilder->expr()->eq(
+ 
+        if (!empty($pid)) {
+            $constraints[] = $queryBuilder->expr()->eq(
                 "pid",
                 $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
-            ),
-            $queryBuilder->expr()->eq(
-                "recordlanguage",
-                $queryBuilder->createNamedParameter($languageId, Connection::PARAM_INT)
-            ),
-            $where
-        );
+            );
+        }
  
+        $constraints[] = $queryBuilder->expr()->eq(
+            "recordlanguage",
+            $queryBuilder->createNamedParameter($languageId, Connection::PARAM_INT)
+        );
+        
+ 
+        if (!empty($recordtable)) {
+            $constraints[] = $queryBuilder->expr()->eq(
+                "tablename",
+                $queryBuilder->createNamedParameter($recordtable, Connection::PARAM_STR)
+            );
+        }
+        
+        $result = $queryBuilder
+            ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
+            ->addSelect("tablename", "recordid", "pid", "recordlanguage")
+            ->where(...$constraints);
+
         $result->from($this->tablename)
-        ->groupBy("tablename", "recordid", "pid", "recordlanguage");
+            ->groupBy("tablename", "recordid", "pid", "recordlanguage");
 
         if (!empty($limit)) {
             $result->setMaxResults($limit);
         }
 
-        return $result->executeQuery()->fetchAllAssociative();
+        $result->orderBy('roundrate','desc');
+ 
+        if (!empty($topRated)) {
+            $result->having(
+                $queryBuilder->expr()->eq(
+                    "roundrate",
+                    $queryBuilder->createNamedParameter(5, Connection::PARAM_INT)
+                )
+            );
+        }
+
+        $result = $result->executeQuery()->fetchAllAssociative();
+
+        return $result;
     }
 
     /**

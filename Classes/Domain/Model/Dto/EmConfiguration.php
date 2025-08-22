@@ -128,9 +128,12 @@ class EmConfiguration
         $decodedDataAsArray = json_decode($featureGetRecordsField, true);
 
         $result = [];
-        foreach($decodedDataAsArray as $key => $row) {
-            foreach($row as $tableName => $fieldName) {    
-                $result[$tableName] = $fieldName;
+
+        if (!empty($featureGetRecordsField)) {
+            foreach($decodedDataAsArray as $key => $row) {
+                foreach($row as $tableName => $fieldName) {    
+                    $result[$tableName] = $fieldName;
+                }
             }
         }
 

@@ -21,10 +21,15 @@ plugin.tx_bcsimplerate {
         resultType = 
         # cat=plugin.tx_bcsimplerate//r; type=int; label=Show display mode: 0|Detailed, 1|Total Score
         displayMode = 
+        # cat=plugin.tx_bcsimplerate//r; type=int; label=Show Top rated
+        topRated = 
+
+        # cat=plugin.tx_bcsimplerate//r; type=string; label=Show Records from table
+        recordsFromTable = 
 
         orderByAllowed = 
         # cat=plugin.tx_bcsimplerate//r; type=string; override field via flexfrom settings
-        overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode
+        overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode,topRated,recordsFromTable
 
         paginate {
             # cat=plugin.tx_bcsimplerate//p; type=int; label=Paginate items per page

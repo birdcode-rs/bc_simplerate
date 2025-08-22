@@ -24,6 +24,51 @@
 			<trans-unit id="extmng.featureGetRecordsField" xml:space="preserve">
 				<source>Add a JSON array to define which field should be shown from the table to act as the record name. The following JSON array specifies that the "title" field should be shown for records in the "tx_news_domain_model_news" and "tx_bcbase_domain_model_reference" tables: [{"tx_news_domain_model_news": "title"}, {"tx_bcbase_domain_model_reference": "title"}]</source>
 			</trans-unit>
+			<trans-unit id="flexforms_general.settings" resname="flexforms_general.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.displayMode" resname="flexforms_general.displayMode">
+				<source>Display Mode</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.displayMode.0" resname="flexforms_general.displayMode.0">
+				<source>Detailed</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.displayMode.1" resname="flexforms_general.displayMode.1">
+				<source>Total Score</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.topRated" resname="flexforms_general.topRated">
+				<source>Top rated</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.resultType" resname="flexforms_general.resultType">
+				<source>Result Type</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.resultType.0" resname="flexforms_general.resultType.0">
+				<source>Logged-in Users Only</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.resultType.1" resname="flexforms_general.resultType.1">
+				<source>Anonymous Users</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.resultType.2" resname="flexforms_general.resultType.2">
+				<source>Current User</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.limit" resname="flexforms_general.limit">
+				<source>Limit</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.hidePagination" resname="flexforms_general.hidePagination">
+				<source>Hide Pagination</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.paginate.insertAbove" resname="flexforms_general.paginate.insertAbove">
+				<source>Insert Above</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.paginate.insertBelow" resname="flexforms_general.paginate.insertBelow">
+				<source>Insert Below</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.paginate.itemsPerPage" resname="flexforms_general.paginate.itemsPerPage">
+				<source>Items Per Page</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.recordsFromTable" resname="flexforms_general.recordsFromTable">
+				<source>Show rates for</source>
+			</trans-unit>
         </body>
     </file>
 </xliff>

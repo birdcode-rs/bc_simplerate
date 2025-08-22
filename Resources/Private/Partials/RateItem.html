@@ -1,12 +1,15 @@
- <f:variable name="ratedRecord">{bcsr:getRatedData(recordid:rateItem.recordid,tablename:rateItem.tablename)}</f:variable>
+{namespace bcsrbe=BirdCode\BcSimplerate\ViewHelpers\Backend}
+<f:variable name="ratedRecord">{bcsr:getRatedData(recordid:rateItem.recordid,tablename:rateItem.tablename)}</f:variable>
 <f:variable name="user">{bcsr:getRatedData(recordid:rateItem.feuser,tablename:'fe_users')}</f:variable>
-<li class="rating-list-item">
+<li class="rating-list-item" data-score="{rateItem.rate}{rateItem.roundrate}">
     <div class="rating-box"> 
         <div class="rated-item"><f:for each="{ratedRecord}" as="item" iteration="i">{item}</f:for></div>
-        <f:debug title="" inline="1">{rateItem}</f:debug>
-        <div class="rating_record"><div class="data_rating" data-rating="{rateItem.rate}{rateItem.roundrate}"></div></div>
-        <f:if condition="{settings.displayMode}">
-            <f:else><f:if condition="{rateItem.feuser}"><div class="rated-by">Rated by: {user.name}</div></f:if></f:else>
-        </f:if>
+        <div class="rating_record">
+            <span class="rating_record_score">({rateItem.rate}{rateItem.roundrate})</span>
+            <div class="data_rating" data-rating="{rateItem.rate}{rateItem.roundrate}"></div>
+            <f:if condition="{settings.displayMode}">
+                <f:else><f:if condition="{rateItem.feuser}"><div class="rated-by"><f:translate key="tx_bcsimplerate_domain_model_ratings.ratedBy" />: {user.name}</div></f:if></f:else>
+            </f:if>
+        </div>
     </div>
 </li>
