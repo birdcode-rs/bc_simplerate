@@ -264,12 +264,12 @@ class RateRepository extends Repository
         $constraints = [];
 
         if (!empty($type) && $type == '1') {
-            $constraints[] = $queryBuilder->expr()->gt(
+            $constraints[] = $queryBuilder->expr()->eq(
                 "feuser",
                 $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
             );
         } else {
-            $constraints[] = $queryBuilder->expr()->eq(
+            $constraints[] = $queryBuilder->expr()->gt(
                 "feuser",
                 $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
             );
