@@ -13,21 +13,23 @@ defined('TYPO3') or exit();
     ExtensionUtility::registerPlugin(
         'BcSimplerate',
         'Pi1',
-        'Rate it'
+        'Rate it',
+        'content-extension'
     );
     ExtensionUtility::registerPlugin(
         'BcSimplerate',
         'Ratings',
-        'Show rating results'
+        'Show rating results',
+        'content-extension'
     );
 })();
 
 
-$pluginConfig = ['bcsimplerate_ratings' => 'BcSimplerateRatings'];
+$pluginConfig = ['bcsimplerate_ratings' => 'bcSimplerateRatings'];
 foreach ($pluginConfig as $contentTypeName => $flexformFileName) {
     ExtensionManagementUtility::addPiFlexFormValue(
         '*',
-        'FILE:EXT:bc_simplerate/Configuration/FlexForms/' . $flexformFileName . '.xml',
+        'FILE:EXT:bc_simplerate/Configuration/FlexForms/flexform_' . $flexformFileName . '.xml',
         $contentTypeName
     );
     $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['showitem'] = '
