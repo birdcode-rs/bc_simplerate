@@ -4,7 +4,7 @@
 
 <f:section name="content">
 
-    <f:if condition="{settings.hidePagination}">
+    <f:if condition="{settings.hidePagination} && {ratings}">
         <f:then> 
             <div class="rating-results">
                  <ul class="rating-list">
@@ -14,24 +14,22 @@
                 </ul>
             </div>
         </f:then>
-        <f:else>
-            <f:if condition="{paginatorItems}">
-                <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertAbove} && {settings.hidePagination} == 0">
-                    <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage}" />
-                </f:if>
+        <f:else if="{paginatorItems}">
+            <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertAbove} == 1 && {settings.hidePagination} == 0">
+                <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage, class:'top-pagination'}" />
+            </f:if>
 
-                <div class="rating-results">
-                    <ul class="rating-list">
-                        <f:for each="{paginatorItems}" as="rateItem" iteration="iterator">
-                           <f:render partial="RateItem" arguments="{_all}" />
-                        </f:for>
-                    </ul>
-                </div>
+            <div class="rating-results">
+                <ul class="rating-list">
+                    <f:for each="{paginatorItems}" as="rateItem" iteration="iterator">
+                        <f:render partial="RateItem" arguments="{_all}" />
+                    </f:for>
+                </ul>
+            </div>
 
-                <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertBelow} && {settings.hidePagination} == 0">
-                   <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage}" />
-                </f:if>
-            </f:if>            
+            <f:if condition="{paginator.numberOfPages} > 1 && {settings.paginate.insertBelow} == 1 && {settings.hidePagination} == 0">
+                <f:render partial="Pagination/Index" arguments="{totalPages: totalPages, currentPage:currentPage, class:'bottom-pagination'}" />
+            </f:if>        
         </f:else>
     </f:if>
 </f:section>

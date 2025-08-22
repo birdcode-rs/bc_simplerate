@@ -19,7 +19,6 @@
 .rate {
     position: relative;
 }
-
 .rate .rate-results {
     position: absolute;
     top: 0;
@@ -183,7 +182,6 @@ span.no-rate {
     line-height: 1;
     padding-top: 15px;
 }
-
 @media screen and (min-width: 520px) {
     .simplerate_wrapper {
         flex-direction: row;
@@ -211,7 +209,6 @@ span.no-rate {
         transform: translateY(-50%);
     }
 }
-
 @media screen and (min-width: 1200px) {
     .simplerate_success span {
         font-size: 22px;
@@ -302,9 +299,49 @@ span.no-rate {
         font-size: 14px
     }
 }
-#p .simplerate_form .note-field-wrap textarea.required-field,
 .simplerate_form .note-field-wrap textarea.required-field {
     border-color: #961157 !important;
+}
+/* Pagination*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+.pagination ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.pagination-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #495057;
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+.pagination-link:hover,
+.pagination-link:focus {
+    background-color: #6c757d;
+    color: #fff;
+    border-color: #6c757d;
+}
+.pagination-link--active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+    cursor: default;
+    pointer-events: none;
 }
 
 /* Plugin Ratings */
@@ -355,8 +392,8 @@ span.no-rate {
 }
 .tx-bc-simplerate .pagination ul li {
     list-style-type: none;
-} 
-
+    line-height: 1;
+}
 .tx-bc-simplerate .rating-list {
     list-style: none;
     padding: 0;
@@ -366,7 +403,6 @@ span.no-rate {
     gap: 1.5rem;
     justify-items: center;
 }
-
 .tx-bc-simplerate .rating-list-item {
     background: #fff;
     padding: 2rem 1.5rem;

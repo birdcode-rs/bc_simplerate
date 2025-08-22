@@ -12,9 +12,13 @@ plugin.tx_bcsimplerate {
         # storagePid = 
     }
     settings {
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=cookiename
         cookiename = rateEntity
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Record ID
         rId = 
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=Record Table
         rTable = pages
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=feature FE user
         featureFeuser = 
 
         # cat=plugin.tx_bcsimplerate//r; type=int; label=Show type of results: 0|Logged-in Users Only,1|Anonymous Users,2|Current User
@@ -26,9 +30,9 @@ plugin.tx_bcsimplerate {
 
         # cat=plugin.tx_bcsimplerate//r; type=string; label=Show Records from table
         recordsFromTable = 
-
+        # cat=plugin.tx_bcsimplerate//r; type=string; label=Order By Allowed
         orderByAllowed = 
-        # cat=plugin.tx_bcsimplerate//r; type=string; override field via flexfrom settings
+        # cat=plugin.tx_bcsimplerate//r; type=string; label=Override field via flexfrom settings
         overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode,topRated,recordsFromTable
 
         paginate {

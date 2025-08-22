@@ -12,10 +12,7 @@
  ***/
 
 namespace BirdCode\BcSimplerate\Domain\Repository;
-
-use BirdCode\BcSimplerate\Domain\Model\Rate;
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
+ 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -30,6 +27,8 @@ class RateRepository extends Repository
 {
     /* main table of the simplerate plugin */
     protected string $tablename = 'tx_bcsimplerate_domain_model_rate';
+
+    public int $topRated = 5;
   
     /**
      * Method Finds a record by UID and table name, optionally filtered by PID.
@@ -41,9 +40,14 @@ class RateRepository extends Repository
      *
      * @return array
      */
-    public function findRecordByIdAndTablename(int $uid, string $tablename, ?int $pid = null, int $languageId = 0): ?array
-    {
+    public function findRecordByIdAndTablename(
+        int $uid, 
+        string $tablename, 
+        ?int $pid = null, 
+        int $languageId = 0
+    ): ?array {
         $query = $this->createQuery();
+
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setRespectSysLanguage(false);
 
@@ -53,14 +57,19 @@ class RateRepository extends Repository
             $query->equals('recordlanguage', $languageId),
         ];
          
-        if (isset($tablename)) {
+        if (!empty($tablename)) {
             $constraints[] = $query->equals('tablename', $tablename);
         }
+
         if ($pid !== null) {
             $constraints[] = $query->equals('pid', $pid);
         }
  
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
 
         $results = $query->execute()->toArray();
  
@@ -77,32 +86,43 @@ class RateRepository extends Repository
      *
      * @return array
      */
-    public function findRecordByIdAndTablenameForLoggedUsers(int $uid, string $tablename, ?int $pid = null, int $languageId = 0): ?array
-    {
+    public function findRecordByIdAndTablenameForLoggedUsers(
+        int $uid,
+        string $tablename,
+        ?int $pid = null,
+        int $languageId = 0
+    ): ?array {
         $query = $this->createQuery();
+        
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setRespectSysLanguage(false);
+
         $constraints = [
             $query->greaterThan('rate', 0),
             $query->equals('recordid', $uid),
             $query->greaterThan('feuser', 0),
             $query->equals('recordlanguage', $languageId),
         ];
-         
-        if (isset($tablename)) {
+        
+        if (!empty($tablename)) {
             $constraints[] = $query->equals('tablename', $tablename);
         }
+
         if ($pid !== null) {
             $constraints[] = $query->equals('pid', $pid);
         }
- 
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
 
         $results = $query->execute()->toArray();
+        
         return $results;
     }
-
-     
+ 
     /**
      * Method findByParams
      *
@@ -126,20 +146,28 @@ class RateRepository extends Repository
         if (isset($uid)) {
             $constraints[] = $query->equals('recordid', $uid);
         }
+
         if (isset($tablename)) {
             $constraints[] = $query->equals('tablename', $tablename);
         }
+
         if (isset($ratedNumber)) {
             $constraints[] = $query->equals('rate', $ratedNumber);
         }
+
         if (isset($pid)) {
             $constraints[] = $query->equals('pid', $pid);
         }
+
         if ($feuser !== null) {
             $constraints[] = $query->equals('feuser', $feuser);
         }
 
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
 
         $results = $query->execute()->toArray();
         return $results;
@@ -156,6 +184,7 @@ class RateRepository extends Repository
     public function findRecordByUser(int $feuser, int $languageId = 0): ?array
     {
         $query = $this->createQuery();
+
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setRespectSysLanguage(false);
  
@@ -165,19 +194,23 @@ class RateRepository extends Repository
             $query->equals('recordlanguage', $languageId)
         ];
 
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
 
         $results = $query->execute()->toArray();
+
         return $results;
     }
-
-     
+ 
     /**
      * Method findRecordByUserAndRecordId
      *
-     * @param int $feuser 
-     * @param int $recordid 
-     * @param int $languageId 
+     * @param int $feuser
+     * @param int $recordid
+     * @param int $languageId
      *
      * @return array
      */
@@ -194,76 +227,100 @@ class RateRepository extends Repository
             $query->equals('recordlanguage', $languageId)
         ];
 
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
 
         $results = $query->execute()->toArray();
+
         return $results;
     }
-  
      
     /**
      * Method findByType
      *
-     * @param string $type 
-     * @param string $pid 
-     * @param ?int $feuser 
-     * @param int $languageId 
-     * @param string $topRated 
+     * @param string $type
+     * @param string $pid
+     * @param ?int $feuser
+     * @param int $languageId
+     * @param string $topRated
+     * @param string $recordtable
      *
      * @return QueryResultInterface
      */
-    public function findByType(string $type, string $pid, ?int $feuser = null, int $languageId = 0, string $topRated = '', string $recordtable = ''): QueryResultInterface
-    {
+    public function findByType(
+        int $type,
+        string $pid,
+        ?int $feuser = null,
+        int $languageId = 0,
+        string $topRated = '',
+        string $recordtable = ''
+    ): QueryResultInterface {
         $query = $this->createQuery();
+
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setRespectSysLanguage(false);
- 
+        
         $constraints = [
             $query->greaterThan('rate', 0),
-            $query->in('pid', explode(',', $pid)),
+            $query->in('pid', GeneralUtility::trimExplode(',', $pid, true)),
             $query->equals('recordlanguage', $languageId),
         ];
 
-        if ($type == '1') {
+        if ($type === 1) {
             $constraints[] = $query->equals('feuser', 0);
-        } elseif ($type == '2' && null !== $feuser) {
+        } elseif ($type === 2 && null !== $feuser) {
             $constraints[] = $query->equals('feuser', $feuser);
         } else {
             $constraints[] = $query->greaterThan('feuser', 0);
         }
- 
+
         if (!empty($topRated)) {
-            $constraints[] = $query->equals('rate', 5); 
+            $constraints[] = $query->equals('rate', $this->topRated);
         }
- 
+        
         if (!empty($recordtable)) {
-            $constraints[] = $query->equals('tablename', $recordtable); 
+            $constraints[] = $query->equals('tablename', $recordtable);
         }
- 
-        $query->matching($query->logicalAnd(...$constraints))->setOrderings(['rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+
+        $query->matching(
+            $query->logicalAnd(...$constraints)
+        )->setOrderings([
+            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
+        ]);
+        
         $results = $query->execute();
 
         return $results;
     }
-    
+     
     /**
      * Method findByTypeWithDisplayMode
      *
-     * @param string $type
+     * @param int $type
      * @param string $pid
      * @param int $languageId
      * @param string $limit
      * @param string $topRated
+     * @param string $recordtable
      *
      * @return array
      */
-    public function findByTypeWithDisplayMode(string $type, string $pid, int $languageId = 0, string $limit = '10', string $topRated = '', $recordtable = ''): ?array
-    {
+    public function findByTypeWithDisplayMode(
+        int $type, 
+        string $pid, 
+        int $languageId = 0, 
+        string $limit = '10', 
+        string $topRated = '', 
+        string $recordtable = ''
+    ): ?array {
         $queryBuilder = $this->getQueryBuilder($this->tablename);
 
         $constraints = [];
 
-        if (!empty($type) && $type == '1') {
+        if (!empty($type) && $type === 1) {
             $constraints[] = $queryBuilder->expr()->eq(
                 "feuser",
                 $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
@@ -313,7 +370,7 @@ class RateRepository extends Repository
             $result->having(
                 $queryBuilder->expr()->eq(
                     "roundrate",
-                    $queryBuilder->createNamedParameter(5, Connection::PARAM_INT)
+                    $queryBuilder->createNamedParameter($this->topRated, Connection::PARAM_INT)
                 )
             );
         }
@@ -345,19 +402,5 @@ class RateRepository extends Repository
     private function getQueryBuilder(string $table): QueryBuilder
     {
         return $this->getConnection($table)->createQueryBuilder();
-    }
-     
-    /**
-     * Method getLanguageId
-     *
-     * @return int
-     */
-    private function getLanguageId(): int
-    {
-        $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Context::class);
-  
-        /** @var LanguageAspect $languageAspect */
-        $languageAspect = $context->getAspect('language');
-        return (int) $languageAspect->getId();
     }
 }

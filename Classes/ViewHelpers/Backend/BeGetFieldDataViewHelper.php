@@ -55,7 +55,7 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
         $select = '*';
         $queryBuilder = $this->getQueryBuilder($tablename);
      
-        if (isset($config[$tablename])) {
+        if (!empty(!$config) && isset($config[$tablename])) {
             $select = $config[$tablename];
         }
 

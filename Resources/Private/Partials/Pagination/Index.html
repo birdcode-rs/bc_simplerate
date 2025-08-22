@@ -1,14 +1,14 @@
 <f:if condition="{totalPages}">
-    <div class="pagination">
+    <div class="pagination {class}">
         <ul>
             <f:for each="{totalPages}" as="page">
                 <li>
                     <f:if condition="{page} == {currentPage}">
                         <f:then>
-                            <a class="btn btn-default active" href="#" style="pointer-events: none;">{page}</a>
+                            <a class="pagination-link pagination-link--active" href="#" style="pointer-events: none;">{page}</a>
                         </f:then>
                         <f:else>
-                            <a class="btn btn-default" href="{f:uri.action(action:'{actionName}', arguments:{currentPage: page}, addQueryString:'untrusted')}">{page}</a>
+                            <a class="pagination-link" href="{f:uri.action(action:'{actionName}', arguments:{currentPage: page}, addQueryString:'untrusted')}">{page}</a>
                         </f:else>
                     </f:if>
                 </li>

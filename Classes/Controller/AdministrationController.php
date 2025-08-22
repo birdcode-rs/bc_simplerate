@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace BirdCode\BcSimplerate\Controller;
 
 use BirdCode\BcSimplerate\Domain\Model\Dto\EmConfiguration;
-use BirdCode\BcSimplerate\Domain\Model\Rate; 
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use BirdCode\BcSimplerate\Domain\Repository\AdministrationRepository;
 use Psr\Http\Message\ResponseInterface;

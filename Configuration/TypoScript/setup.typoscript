@@ -38,7 +38,7 @@ plugin.tx_bcsimplerate {
             insertBelow = {$plugin.tx_bcsimplerate.settings.paginate.insertBelow}
         }
 
-        ### labels
+   
         ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
         reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
         noRatingsLabel = {$plugin.tx_bcsimplerate.settings.noRatingsLabel}

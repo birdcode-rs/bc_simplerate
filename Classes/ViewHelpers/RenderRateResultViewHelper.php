@@ -17,7 +17,6 @@ namespace BirdCode\BcSimplerate\ViewHelpers;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -95,7 +94,7 @@ class RenderRateResultViewHelper extends AbstractViewHelper
  
             if ($userId) { 
                 $rated = $this->rateRepository->findRecordByUserAndRecordId($userId, $recordid, $languageUid);
-                $response['rateData'] = !empty($rated) ? $rated[0] : null;
+                $response['rateData'] = !empty($rated) ? reset($rated) : null;
             }
         }
         

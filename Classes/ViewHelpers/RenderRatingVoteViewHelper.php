@@ -18,7 +18,6 @@ use BirdCode\BcSimplerate\Domain\Model\Rate;
 use BirdCode\BcSimplerate\Domain\Repository\RateRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -94,7 +93,7 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
                     $uidAndRate = explode("|", $value);
                     if ($uidAndRate[0] == $recordid) {
                         $rated = $this->rateRepository->findByParams((int) $uidAndRate[0], $tablename, (int) $uidAndRate[1], $storage, $languageUid);
-                        if (isset($rated) && !empty($rated)) {
+                        if (!empty($rated)) {
                             $rateData = reset($rated);
                             break;
                         }
