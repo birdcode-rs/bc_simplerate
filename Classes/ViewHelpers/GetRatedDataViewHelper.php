@@ -70,7 +70,7 @@ class GetRatedDataViewHelper extends AbstractViewHelper
  
         $isLocalizedTable = isset($GLOBALS['TCA'][$tablename]['ctrl']['languageField']);
 
-        if ($this->emConfiguration->getFeatureGetRecordsFieldArray()[$tablename]) {
+        if (null !== $this->emConfiguration->getFeatureGetRecordsFieldArray() && isset($this->emConfiguration->getFeatureGetRecordsFieldArray()[$tablename])) {
             $select = $this->emConfiguration->getFeatureGetRecordsFieldArray()[$tablename];
         }
  

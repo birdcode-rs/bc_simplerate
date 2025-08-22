@@ -3,7 +3,7 @@
 <f:variable name="user">{bcsr:getRatedData(recordid:rateItem.feuser,tablename:'fe_users')}</f:variable>
 <li class="rating-list-item" data-score="{rateItem.rate}{rateItem.roundrate}">
     <div class="rating-box"> 
-        <div class="rated-item"><f:for each="{ratedRecord}" as="item" iteration="i">{item}</f:for></div>
+        <div class="rated-item"><f:for each="{ratedRecord}" as="item" iteration="i"><f:if condition="{i.isFirst}">{item}</f:if></f:for></div>
         <div class="rating_record">
             <span class="rating_record_score">({rateItem.rate}{rateItem.roundrate})</span>
             <div class="data_rating" data-rating="{rateItem.rate}{rateItem.roundrate}"></div>
