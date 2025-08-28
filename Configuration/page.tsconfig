@@ -1,1 +1,2 @@
-@import 'EXT:bc_base/Configuration/TsConfig/NewContentElement.tsconfig'
+@import 'EXT:bc_simplerate/Configuration/Tsconfig/ContentElementWizard.tsconfig'
+@import 'EXT:bc_simplerate/Configuration/Tsconfig/ContenPluginTemplateWizard.tsconfig'

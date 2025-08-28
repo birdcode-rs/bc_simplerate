@@ -1,5 +1,5 @@
 <?php
-
+use BirdCode\BcSimplerate\Hooks\PluginPreviewRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -13,20 +13,22 @@ defined('TYPO3') or exit();
     ExtensionUtility::registerPlugin(
         'BcSimplerate',
         'Pi1',
-        'Rate it',
-        'content-extension'
+        'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.title',
+        'ext-bc-simplerate-plugin-pi1'
     );
     ExtensionUtility::registerPlugin(
         'BcSimplerate',
         'Ratings',
-        'Show rating results',
-        'content-extension'
+        'LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.title',
+        'ext-bc-simplerate-plugin-ratings'
     );
 })();
 
 
+
 $pluginConfig = ['bcsimplerate_ratings' => 'bcSimplerateRatings'];
 foreach ($pluginConfig as $contentTypeName => $flexformFileName) {
+    $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'] = PluginPreviewRenderer::class;
     ExtensionManagementUtility::addPiFlexFormValue(
         '*',
         'FILE:EXT:bc_simplerate/Configuration/FlexForms/flexform_' . $flexformFileName . '.xml',

@@ -24,21 +24,19 @@ plugin.tx_bcsimplerate {
     }
 
     settings {
-        orderByAllowed = {$plugin.tx_bcsimplerate.settings.orderByAllowed}
-        overrideFlexformSettingsIfEmpty = {$plugin.tx_bcsimplerate.settings.overrideFlexformSettingsIfEmpty}
-
         resultType = {$plugin.tx_bcsimplerate.settings.resultType}
         displayMode = {$plugin.tx_bcsimplerate.settings.displayMode}
         topRated = {$plugin.tx_bcsimplerate.settings.topRated}
-        recordsFromTable  = {$plugin.tx_bcsimplerate.settings.recordsFromTable}
+        recordsFromTable = {$plugin.tx_bcsimplerate.settings.recordsFromTable}
+        orderBy = {$plugin.tx_bcsimplerate.settings.orderBy} 
+        orderDirection = {$plugin.tx_bcsimplerate.settings.orderDirection} 
 
         paginate {
             itemsPerPage = {$plugin.tx_bcsimplerate.settings.paginate.itemsPerPage}
             insertAbove = {$plugin.tx_bcsimplerate.settings.paginate.insertAbove}
             insertBelow = {$plugin.tx_bcsimplerate.settings.paginate.insertBelow}
         }
-
-   
+ 
         ratingLabel = {$plugin.tx_bcsimplerate.settings.ratingLabel}
         reviewsLabel = {$plugin.tx_bcsimplerate.settings.reviewsLabel}
         noRatingsLabel = {$plugin.tx_bcsimplerate.settings.noRatingsLabel}

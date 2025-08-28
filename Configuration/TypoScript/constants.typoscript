@@ -28,12 +28,13 @@ plugin.tx_bcsimplerate {
         # cat=plugin.tx_bcsimplerate//r; type=int; label=Show Top rated
         topRated = 
 
-        # cat=plugin.tx_bcsimplerate//r; type=string; label=Show Records from table
-        recordsFromTable = 
-        # cat=plugin.tx_bcsimplerate//r; type=string; label=Order By Allowed
-        orderByAllowed = 
+        # cat=plugin.tx_bcsimplerate//r; type=int; label=Set order BY
+        orderBy = uid
+        # cat=plugin.tx_bcsimplerate//r; type=int; label=Set order Direction
+        orderDirection = DESC 
+
         # cat=plugin.tx_bcsimplerate//r; type=string; label=Override field via flexfrom settings
-        overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode,topRated,recordsFromTable
+        overrideFlexformSettingsIfEmpty = storage,rTable,rId,paginate.insertAbove,paginate.insertBelow,paginate.itemsPerPage,resultType,displayMode,topRated,recordsFromTable,orderDirection,orderBy,limit
 
         paginate {
             # cat=plugin.tx_bcsimplerate//p; type=int; label=Paginate items per page

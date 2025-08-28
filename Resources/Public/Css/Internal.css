@@ -349,10 +349,18 @@ span.no-rate {
     max-width: 1024px;
     margin: 0 auto;
 }
+.tx-bc-simplerate .rating-header,
 .tx-bc-simplerate .rating-results {
     max-width: 1024px;
     margin: 0 auto;
     padding: 20px;
+}
+.tx-bc-simplerate .rating-header + .rating-results {
+    padding-top: 0;
+}
+.tx-bc-simplerate .rating-header:first-child {
+    padding-bottom: 0;
+    margin-bottom: 40px;
 }
 .tx-bc-simplerate .rating-list {
     display: flex;

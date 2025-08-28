@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\UpperCase;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  
@@ -247,6 +248,7 @@ class RateRepository extends Repository
      * @param int $languageId
      * @param string $topRated
      * @param string $recordtable
+     * @param array $order
      *
      * @return QueryResultInterface
      */
@@ -256,7 +258,11 @@ class RateRepository extends Repository
         ?int $feuser = null,
         int $languageId = 0,
         string $topRated = '',
-        string $recordtable = ''
+        string $recordtable = '',
+        array $order = [
+            'orderBy' => 'rate',
+            'orderDirection' => 'DESC'
+        ]
     ): QueryResultInterface {
         $query = $this->createQuery();
 
@@ -265,9 +271,12 @@ class RateRepository extends Repository
         
         $constraints = [
             $query->greaterThan('rate', 0),
-            $query->in('pid', GeneralUtility::trimExplode(',', $pid, true)),
             $query->equals('recordlanguage', $languageId),
         ];
+
+        if (!empty($pid)) { 
+            $constraints[] = $query->in('pid', GeneralUtility::trimExplode(',', $pid, true));
+        }
 
         if ($type === 1) {
             $constraints[] = $query->equals('feuser', 0);
@@ -285,11 +294,11 @@ class RateRepository extends Repository
             $constraints[] = $query->equals('tablename', $recordtable);
         }
 
+        $orderBy = $this->generateOrderForCreateQuery($order);
+
         $query->matching(
             $query->logicalAnd(...$constraints)
-        )->setOrderings([
-            'rate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
-        ]);
+        )->setOrderings($orderBy);
         
         $results = $query->execute();
 
@@ -305,16 +314,20 @@ class RateRepository extends Repository
      * @param string $limit
      * @param string $topRated
      * @param string $recordtable
-     *
+     * @param array $order
      * @return array
      */
     public function findByTypeWithDisplayMode(
         int $type, 
         string $pid, 
         int $languageId = 0, 
-        string $limit = '10', 
+        string $limit = '9999', 
         string $topRated = '', 
-        string $recordtable = ''
+        string $recordtable = '',
+        array $order = [
+            'orderBy' => 'roundrate',
+            'orderDirection' => 'DESC'
+        ]
     ): ?array {
         $queryBuilder = $this->getQueryBuilder($this->tablename);
 
@@ -353,7 +366,7 @@ class RateRepository extends Repository
         }
         
         $result = $queryBuilder
-            ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate'") 
+            ->selectLiteral("(ROUND(SUM(`rate`) / count(`rate`) * 2 , 0) / 2) AS 'roundrate', MAX(`crdate`) AS 'max_crdate'") 
             ->addSelect("tablename", "recordid", "pid", "recordlanguage")
             ->where(...$constraints);
 
@@ -364,7 +377,9 @@ class RateRepository extends Repository
             $result->setMaxResults($limit);
         }
 
-        $result->orderBy('roundrate','desc');
+        $orderBy = $this->generateOrderForQueryBuilder($order);
+
+        $result->orderBy($orderBy['field'],$orderBy['dir']);
  
         if (!empty($topRated)) {
             $result->having(
@@ -402,5 +417,52 @@ class RateRepository extends Repository
     private function getQueryBuilder(string $table): QueryBuilder
     {
         return $this->getConnection($table)->createQueryBuilder();
+    }
+    
+    /**
+     * Method generateOrderForQueryBuilder
+     *
+     * @param array $order
+     *
+     * @return array
+     */
+    private function generateOrderForQueryBuilder(array $order): array
+    {
+        $oField = 'roundrate';
+        $oDir = 'DESC';
+ 
+        if (!empty($order) && !empty($order['orderBy'])) {
+            if (!strtolower($order['orderBy']) == 'crdate') {
+                $oField = 'maxcrdate';
+            }            
+        }
+        if (!empty($order) && !empty($order['orderDirection']) && strtolower($order['orderDirection']) == 'asc') {
+            $oDir = strtoupper($order['orderDirection']);
+        }
+  
+        return ['field' => $oField, 'dir' => $oDir];
+    }
+
+        
+    /**
+     * Method generateOrderForCreateQuery
+     *
+     * @param array $order
+     *
+     * @return array
+     */
+    private function generateOrderForCreateQuery(array $order): array
+    {
+        $oField = 'rate';
+        $oDir = 'DESC';
+
+        if (!empty($order) && !empty($order['orderBy'])) {
+           $oField = $order['orderBy'];
+        }
+        if (!empty($order) && !empty($order['orderDirection'])) {
+            $oDir = strtoupper($order['orderDirection']);
+        }
+ 
+        return [$oField => $oDir];
     }
 }

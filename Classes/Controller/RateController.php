@@ -188,14 +188,22 @@ class RateController extends ActionController
      */
     public function ratingsAction(int $currentPage = 1): ResponseInterface
     {   
+        $order = [];
+        if (!empty($this->settings['orderBy']) || !empty($this->settings['orderDirection'])) {
+            $order = [
+                'orderBy' => $this->settings['orderBy'],
+                'orderDirection' => $this->settings['orderDirection']
+            ];
+        }
+ 
         if (empty($this->settings['displayMode'])) {
-            $ratings = $this->rateRepository->findByType((int) $this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('frontend.user') ? $this->context->getAspect('frontend.user')->get('id'):null,  (int) $this->context->getAspect('language')->getId(), $this->settings['topRated'], $this->settings['recordsFromTable']);
+            $ratings = $this->rateRepository->findByType((int) $this->settings['resultType'], $this->settings['storage'], $this->context->getAspect('frontend.user') ? $this->context->getAspect('frontend.user')->get('id'):null,  (int) $this->context->getAspect('language')->getId(), $this->settings['topRated'], $this->settings['recordsFromTable'], $order);
 
             if (!empty($this->settings['limit'])) {
                 $ratings = $ratings->getQuery()->setLimit((int) $this->settings['limit'])->execute();
             }
         } else {
-            $ratings = $this->rateRepository->findByTypeWithDisplayMode((int) $this->settings['resultType'], $this->settings['storage'], (int) $this->context->getAspect('language')->getId(), $this->settings['limit'], $this->settings['topRated'], $this->settings['recordsFromTable']);
+            $ratings = $this->rateRepository->findByTypeWithDisplayMode((int) $this->settings['resultType'], $this->settings['storage'], (int) $this->context->getAspect('language')->getId(), $this->settings['limit'], $this->settings['topRated'], $this->settings['recordsFromTable'], $order);
         }
 
         // paginate.itemsPerPage

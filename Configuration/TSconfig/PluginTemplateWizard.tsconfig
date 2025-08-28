@@ -1,0 +1,7 @@
+##############################
+#  Configure Template Layout
+##############################
+
+tx_bcsimplerate.templateLayouts {   
+    10 = Custom Layout
+}

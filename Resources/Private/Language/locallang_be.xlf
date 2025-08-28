@@ -3,6 +3,9 @@
     <file source-language="en" datatype="plaintext" original="messages" date="2025-02-03T18:52:18Z" product-name="bc_simplerate">
         <header/>
         <body>
+			<trans-unit id="bcsimplerate_ratings_title" xml:space="preserve">
+				<source>Ratings</source>
+			</trans-unit>
 			<trans-unit id="tx_bcsimplerate_pi1.title" resname="tx_bcsimplerate_pi1.title">
 				<source>Rate it</source>
 			</trans-unit>
@@ -24,7 +27,7 @@
 			<trans-unit id="extmng.featureGetRecordsField" xml:space="preserve">
 				<source>Add a JSON array to define which field should be shown from the table to act as the record name. The following JSON array specifies that the "title" field should be shown for records in the "tx_news_domain_model_news" and "tx_bcbase_domain_model_reference" tables: [{"tx_news_domain_model_news": "title"}, {"tx_bcbase_domain_model_reference": "title"}]</source>
 			</trans-unit>
-			<trans-unit id="flexforms_general.settings" resname="flexforms_general.settings">
+			<trans-unit id="flexforms_tab.settings" resname="flexforms_tab.settings">
 				<source>Settings</source>
 			</trans-unit>
 			<trans-unit id="flexforms_general.displayMode" resname="flexforms_general.displayMode">
@@ -68,6 +71,39 @@
 			</trans-unit>
 			<trans-unit id="flexforms_general.recordsFromTable" resname="flexforms_general.recordsFromTable">
 				<source>Show rates for</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderDirection" resname="flexforms_general.orderDirection">
+				<source>Order Direction</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderDirection.asc" resname="flexforms_general.orderDirection.asc">
+				<source>Ascending</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderDirection.desc" resname="flexforms_general.orderDirection.desc">
+				<source>Descending</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderBy" resname="flexforms_general.orderBy">
+				<source>Order By</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderBy.rate" resname="flexforms_general.orderBy.rate">
+				<source>Given rate</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.orderBy.crdate" resname="flexforms_general.orderBy.crdate">
+				<source>Given by time</source>
+			</trans-unit>
+			<trans-unit id="flexforms_tab.template" resname="flexforms_tab.template">
+				<source>Template</source>
+			</trans-unit>
+			<trans-unit id="flexforms_template.headline" resname="flexforms_template.headline">
+				<source>Headline</source>
+			</trans-unit>			
+			<trans-unit id="flexforms_template.headlineType" resname="flexforms_template.headlineType">
+				<source>Headline Type (choose: h1–h5, p, strong, b, em, i, span, or hidden)</source>
+			</trans-unit>			
+			<trans-unit id="flexforms_template.bodytext" resname="flexforms_template.bodytext">
+				<source>Bodytext</source>
+			</trans-unit>			
+			<trans-unit id="flexforms_template.templateLayout" resname="flexforms_template.templateLayout">
+				<source>Template Layout</source>
 			</trans-unit>
         </body>
     </file>

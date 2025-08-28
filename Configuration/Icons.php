@@ -4,6 +4,7 @@ $iconList = [];
 
 foreach ([
     'ext-bc-simplerate-plugin-pi1' => 'star-rating-icon.svg',
+    'ext-bc-simplerate-plugin-ratings' => 'star-rating-icon-v2.svg',
 	'ext-bc-simplerate-module-administration' => 'module_administration.svg',
 ] as $identifier => $path) {
     $iconList[$identifier] = [

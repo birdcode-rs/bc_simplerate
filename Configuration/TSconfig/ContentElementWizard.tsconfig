@@ -3,7 +3,7 @@ mod.wizards {
         plugins {
             elements {
                 #bcsimplerate_pi1 {
-                #    iconIdentifier = content-extension
+                #    iconIdentifier = ext-bc-simplerate-plugin-pi1
                 #    title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.title
                 #    description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.description
                 #    tt_content_defValues {
@@ -11,7 +11,7 @@ mod.wizards {
                 #    }
                 #}
 				bcsimplerate_ratings {
-                    iconIdentifier = content-extension
+                    iconIdentifier = ext-bc-simplerate-plugin-ratings
                     title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.title
                     description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.description
                     tt_content_defValues {
