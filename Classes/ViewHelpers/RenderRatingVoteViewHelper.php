@@ -45,14 +45,12 @@ class RenderRatingVoteViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        parent::initializeArguments();
-        
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('recordid', 'integer', 'ID of the record', true, 0 );
-        $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
-        $this->registerArgument('cookiename', 'string', 'Name of the cookie used to store rate results', true, '');
-        $this->registerArgument('storage', 'integer', 'Record storage ID', true, 0);
-        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);        
+        $this->registerArgument('recordid', 'integer', 'ID of the record', true);
+        $this->registerArgument('tablename', 'string', 'Name of the table', true);
+        $this->registerArgument('cookiename', 'string', 'Name of the cookie used to store rate results', true);
+        $this->registerArgument('storage', 'integer', 'Record storage ID', true);
+        $this->registerArgument('featureFeuser', 'integer', 'Define if Feuser feature is enabled', false, 0);
     }
      
     /**

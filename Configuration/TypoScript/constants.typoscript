@@ -20,6 +20,8 @@ plugin.tx_bcsimplerate {
         rTable = pages
         # cat=plugin.tx_bcsimplerate//a; type=string; label=feature FE user
         featureFeuser = 
+        # cat=plugin.tx_bcsimplerate//a; type=string; label=show records from table
+        recordsFromTable = 
 
         # cat=plugin.tx_bcsimplerate//r; type=int; label=Show type of results: 0|Logged-in Users Only,1|Anonymous Users,2|Current User
         resultType = 

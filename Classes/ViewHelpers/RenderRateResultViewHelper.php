@@ -44,12 +44,10 @@ class RenderRateResultViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        parent::initializeArguments();
-
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('recordid', 'int', 'ID of the record', true, 0 );
-        $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
-        $this->registerArgument('storage', 'int', 'Record storage ID', true, 0);
+        $this->registerArgument('recordid', 'int', 'ID of the record', true);
+        $this->registerArgument('tablename', 'string', 'Name of the table', true);
+        $this->registerArgument('storage', 'int', 'Record storage ID', true);
         $this->registerArgument('featureFeuser', 'int', 'Define if Feuser feature is enabled', false, 0);
     }
      

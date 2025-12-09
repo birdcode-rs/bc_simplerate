@@ -32,7 +32,7 @@ class GetRatedDataViewHelper extends AbstractViewHelper
     protected EmConfiguration $emConfiguration;
     protected Context $context;
  
-    public function initialize() 
+    public function initialize(): void
     {
         $this->emConfiguration = GeneralUtility::makeInstance(EmConfiguration::class);
         $this->context = GeneralUtility::makeInstance(Context::class);
@@ -45,8 +45,6 @@ class GetRatedDataViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        parent::initializeArguments(); 
-
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
         $this->registerArgument('recordid', 'int', 'ID of the record', true);
         $this->registerArgument('tablename', 'string', 'Name of the table', true);

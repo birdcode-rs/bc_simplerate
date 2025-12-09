@@ -24,8 +24,6 @@ defined('TYPO3') or exit();
     );
 })();
 
-
-
 $pluginConfig = ['bcsimplerate_ratings' => 'bcSimplerateRatings'];
 foreach ($pluginConfig as $contentTypeName => $flexformFileName) {
     $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'] = PluginPreviewRenderer::class;

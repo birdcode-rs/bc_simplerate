@@ -7,7 +7,7 @@ mod.wizards {
                 #    title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.title
                 #    description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:tx_bcsimplerate_pi1.description
                 #    tt_content_defValues {
-                #        list_type = bcsimplerate_pi1
+                #        CType = bcsimplerate_pi1
                 #    }
                 #}
 				bcsimplerate_ratings {
@@ -15,7 +15,7 @@ mod.wizards {
                     title = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.title
                     description = LLL:EXT:bc_simplerate/Resources/Private/Language/locallang_be.xlf:bcsimplerate_ratings.description
                     tt_content_defValues {
-                        list_type = bcsimplerate_ratings
+                        CType = bcsimplerate_ratings
                     }
                 }
             }

@@ -29,11 +29,9 @@ class BeGetTcaFieldDataViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        parent::initializeArguments(); 
-
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('fieldname', 'string', 'Field of the TCA', true, '');
-        $this->registerArgument('tablename', 'string', 'TCA config table name', true, '');
+        $this->registerArgument('fieldname', 'string', 'Field of the TCA', true);
+        $this->registerArgument('tablename', 'string', 'TCA config table name', true);
     }
  
     /**

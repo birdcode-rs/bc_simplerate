@@ -26,7 +26,10 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+
 
 /**
  * Render selected options of plugin in Web>Page module
@@ -66,8 +69,14 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
     {
         $this->pageId = $item->getContext()->getPageId();
         $row = $item->getRecord();
+        if ((new Typo3Version())->getMajorVersion() >= 14) {
+            /** @var RecordInterface  $row */
+            $row = $row->getRawRecord()->toArray();
+        }
         $actionTranslationKey = $result = '';
+         
         $header = '<strong>' . htmlspecialchars($this->getLanguageService()->sL(self::LLPATH . 'bcsimplerate_ratings_title')) . '</strong>';
+        
         $this->tableData = [];
         $flexforms = GeneralUtility::xml2array((string)$row['pi_flexform']);
         if (is_string($flexforms)) {
@@ -359,9 +368,17 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
     {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class); 
         $pageRenderer->addCssFile('EXT:bc_simplerate/Resources/Public/Css/Backend/PageLayoutView.css');
-  
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:bc_simplerate/Resources/Private/Backend/PageLayoutView.html'));
+   
+        if (class_exists(StandaloneView::class)) {
+            $view = GeneralUtility::makeInstance(StandaloneView::class);
+            $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:bc_simplerate/Resources/Private/Backend/PageLayoutView.html'));
+        } else {
+            $viewFactoryData = new ViewFactoryData(
+                templatePathAndFilename: 'EXT:bc_simplerate/Resources/Private/Backend/PageLayoutView.html'
+            );
+            $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create($viewFactoryData);
+        }
+
         $view->assignMultiple([
             'header' => $header,
             'rows' => [

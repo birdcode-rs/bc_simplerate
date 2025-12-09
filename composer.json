@@ -7,11 +7,16 @@
         "extension",
         "rate"
     ],
-    "homepage": "https://birdcode.tech/",
+    "homepage": "https://extensions.typo3.org/extension/bc_simplerate",
+    "support": {
+        "source": "https://github.com/birdcode-rs/bc_simplerate",
+        "issues": "https://github.com/birdcode-rs/bc_simplerate/issues"
+    },
     "authors": [
         {
             "name": "Bird Dev",
             "role": "Developer",
+            "email": "bird.dev@birdcode.in.rs",
             "homepage": "https://birdcode.tech"
         }
     ],
@@ -20,19 +25,16 @@
     ],
     "require": {
         "php": ">= 8.0 < 8.4", 
-        "typo3/cms-backend": "^13.4.5",
-        "typo3/cms-core": "^13.4.5",
-        "typo3/cms-extbase": "^13.4.5",
-        "typo3/cms-frontend": "^13.4.5",
-        "typo3/cms-fluid": "^13.4.5"
+        "typo3/cms-backend": "^13.4.5 || ^14",
+        "typo3/cms-core": "^13.4.5 || ^14",
+        "typo3/cms-extbase": "^13.4.5 || ^14",
+        "typo3/cms-frontend": "^13.4.5 || ^14",
+        "typo3/cms-fluid": "^13.4.5 || ^14"
     },
     "autoload": {
         "psr-4": {
             "BirdCode\\BcSimplerate\\": "Classes"
         }
-    },
-    "replace": {
-        "typo3-ter/bc-simplerate": "self.version"
     },
     "config": {
         "vendor-dir": ".Build/vendor",

@@ -33,12 +33,10 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        parent::initializeArguments(); 
-
         // registerArgument($name, $type, $description, $required, $defaultValue, $escape)
-        $this->registerArgument('recordid', 'int', 'ID of the record', true, 0 );
-        $this->registerArgument('tablename', 'string', 'Name of the table', true, '');
-        $this->registerArgument('config','array', 'Config from Dto Em Config', true, []);
+        $this->registerArgument('recordid', 'int', 'ID of the record', true);
+        $this->registerArgument('tablename', 'string', 'Name of the table', true);
+        $this->registerArgument('config','array', 'Config from Dto Em Config', true);
     }
  
     /**
@@ -54,10 +52,17 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
     {
         $select = '*';
         $queryBuilder = $this->getQueryBuilder($tablename);
+
+        error_log(print_r( $id, true));
+        error_log($tablename);
      
-        if (!empty(!$config) && isset($config[$tablename])) {
+        error_log(print_r($config, true));
+
+        if (!empty($config) && isset($config[$tablename])) {
             $select = $config[$tablename];
         }
+
+        error_log($select);
 
         $result = $queryBuilder
         ->select($select)  
@@ -85,6 +90,9 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
  
         if (!empty($config)) {
             $recordValue = $this->getRecordValue($recordid, $tablename, $config);
+
+            error_log(print_r($recordValue, true));
+
             if (!empty($recordValue)) {
                 return (string) $recordValue[0];
             }
