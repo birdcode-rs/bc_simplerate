@@ -52,18 +52,11 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
     {
         $select = '*';
         $queryBuilder = $this->getQueryBuilder($tablename);
-
-        error_log(print_r( $id, true));
-        error_log($tablename);
-     
-        error_log(print_r($config, true));
-
+ 
         if (!empty($config) && isset($config[$tablename])) {
             $select = $config[$tablename];
         }
-
-        error_log($select);
-
+ 
         $result = $queryBuilder
         ->select($select)  
         ->from($tablename)
@@ -90,9 +83,7 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
  
         if (!empty($config)) {
             $recordValue = $this->getRecordValue($recordid, $tablename, $config);
-
-            error_log(print_r($recordValue, true));
-
+ 
             if (!empty($recordValue)) {
                 return (string) $recordValue[0];
             }
