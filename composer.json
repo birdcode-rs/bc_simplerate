@@ -1,5 +1,6 @@
 {
     "name": "birdcode/bc-simplerate",
+    "license": "GPL-2.0-or-later",
     "type": "typo3-cms-extension",
     "description": "Include rate feature for any record",
     "keywords": [
@@ -20,11 +21,8 @@
             "homepage": "https://birdcode.tech"
         }
     ],
-    "license": [
-        "GPL-2.0-or-later"
-    ],
     "require": {
-        "php": ">= 8.0 < 8.4", 
+        "php": ">= 8.0 =< 8.4", 
         "typo3/cms-backend": "^13.4.5 || ^14",
         "typo3/cms-core": "^13.4.5 || ^14",
         "typo3/cms-extbase": "^13.4.5 || ^14",

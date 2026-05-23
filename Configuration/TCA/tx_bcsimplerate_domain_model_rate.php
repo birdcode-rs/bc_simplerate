@@ -28,7 +28,7 @@ return [
         'showRecordFieldList' => 'rate, recordid, tablename, feuser, recordlanguage',
     ],
     'types' => [
-        '1' => [
+        0 => [
             'showitem' => '
                 sys_language_uid, l10n_parent, l10n_diffsource, hidden, rate, recordid, recordlanguage, tablename, note, feuser,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime
