@@ -7,7 +7,6 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Bird Code',
     'author_email' => 'bird.dev@birdcode.in.rs',
     'state' => 'stable',
-    'clearCacheOnLoad' => true,
     'version' => '1.1.2',
     'constraints' => [
         'depends' => [
