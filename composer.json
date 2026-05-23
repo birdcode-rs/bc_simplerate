@@ -1,8 +1,8 @@
 {
     "name": "birdcode/bc-simplerate",
+    "description": "Include rate feature for any record",
     "license": "GPL-2.0-or-later",
     "type": "typo3-cms-extension",
-    "description": "Include rate feature for any record",
     "keywords": [
         "TYPO3",
         "extension",
@@ -23,21 +23,16 @@
     ],
     "require": {
         "php": "^8.3 || ^8.4",
-        "typo3/cms-core": "^13.4.5 || ^14.0",
-        "typo3/cms-backend": "^13.4.5 || ^14.0",
-        "typo3/cms-extbase": "^13.4.5 || ^14.0",
-        "typo3/cms-fluid": "^13.4.5 || ^14.0",
         "typo3/cms-frontend": "^13.4.5 || ^14.0"
     },
     "autoload": {
         "psr-4": {
-            "BirdCode\\BcSimplerate\\": "Classes"
+            "BirdCode\\BcSimplerate\\": "Classes/"
         }
     },
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin",
-        "lock": false,
         "allow-plugins": {
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true
@@ -45,9 +40,10 @@
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "bc_simplerate",
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web",
             "app-dir": ".Build",
-            "web-dir": ".Build/Web"
+            "extension-key": "bc_simplerate"
         }
     }
 }

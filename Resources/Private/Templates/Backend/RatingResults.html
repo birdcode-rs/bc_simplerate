@@ -42,7 +42,7 @@
                         <td style="width:10px">[{item.roundrate}]</td>
                         <td><f:render partial="Backend/StarsGenerator" arguments="{rate:item.roundrate}"/> </td>
                         <td>{item.recordid}</td>
-                        <td>{item.recordlanguage}</td>
+                        <td><f:if condition="{siteLanguages.{item.recordlanguage}}"><f:then>{siteLanguages.{item.recordlanguage}.title}</f:then><f:else>{item.recordlanguage}</f:else></f:if></td>
                         <td>
                           <f:variable name="tcaTitle">{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:variable>
                           <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:item.tablename, fieldname:'title')}</f:else></f:if> - [{item.tablename}]</td>

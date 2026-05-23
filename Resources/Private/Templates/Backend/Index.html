@@ -47,7 +47,7 @@
                           <f:if condition="{f:translate(key:tcaTitle)}"><f:then>{f:translate(key: '{tcaTitle}')}</f:then><f:else>{bcsrbe:beGetTcaFieldData(tablename:rateItem.tablename, fieldname:'title')}</f:else></f:if> - [{rateItem.tablename}]</td>
                         <td>{bcsrbe:beGetFieldData(recordid:rateItem.recordid, tablename:rateItem.tablename, config:featureGetRecordsField)}</td>
                         <td style="min-width: 200px;">{rateItem.note}</td>
-                        <td>{rateItem.recordlanguage}</td>
+                        <td><f:if condition="{siteLanguages.{rateItem.recordlanguage}}"><f:then>{siteLanguages.{rateItem.recordlanguage}.title}</f:then><f:else>{rateItem.recordlanguage}</f:else></f:if></td>
                         <td><f:if condition="{rateItem.feuser}">{bcsrbe:beGetFieldData(recordid:rateItem.feuser, tablename:'fe_users', config:featureGetRecordsField)} [{rateItem.feuser}]</f:if></td>
                       </tr>
                   </f:for>

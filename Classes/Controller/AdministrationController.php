@@ -23,6 +23,7 @@ use TYPO3\CMS\Backend\Template\Components\Menu\Menu;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
@@ -145,6 +146,7 @@ class AdministrationController extends ActionController
         $view->assignMultiple([
             'actionName' => str_replace("Action", "", __FUNCTION__),
             'currentPage' => $currentPage,
+            'siteLanguages' => $this->getSiteLanguages($this->pageUid),
             'generateFilter' => $this->administrationRepository->generateFilter($this->pageUid),
             'filtertable' =>  (string)($this->request->getQueryParams()['filtertable'] ?? ''),
         ]);
@@ -171,7 +173,7 @@ class AdministrationController extends ActionController
         }
  
         $allAvailableRates = $this->administrationRepository->roundedResults($this->pageUid, $filterCriteria, $filterOrderBy);
- 
+  
         if ($allAvailableRates) {
             $paginator = new ArrayPaginator(
                 $allAvailableRates,
@@ -193,6 +195,7 @@ class AdministrationController extends ActionController
         $view->assignMultiple([
             'actionName' => str_replace("Action", "", __FUNCTION__),
             'currentPage' => $currentPage,
+            'siteLanguages' => $this->getSiteLanguages($this->pageUid),
             'generateFilter' => $this->administrationRepository->generateFilter($this->pageUid),
             'filtertable' =>  (string)($this->request->getQueryParams()['filtertable'] ?? '')
         ]);
@@ -291,5 +294,30 @@ class AdministrationController extends ActionController
             }
         }
         return $menu;
+    }
+
+    private function getSiteLanguages(int $pid): ?array
+    {
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+        $site = $siteFinder->getSiteByPageId($this->pageUid);
+        $languageDetails = [];
+
+        if ($site) {
+            $languages = $site->getLanguages();
+            
+            foreach ($languages as $siteLanguage) {
+                $langId   = $siteLanguage->getLanguageId(); // npr. 0, 1, 2...
+                $title    = $siteLanguage->getTitle();      // npr. "English", "Srpski"
+                $locale   = $siteLanguage->getLocale();     // npr. "en_US.UTF-8"
+ 
+                $languageDetails[$langId] = [
+                    'id' => $langId,
+                    'title' => $title,
+                    'locale' => $locale
+                ];
+            }
+        }
+
+        return $languageDetails;
     }
 }

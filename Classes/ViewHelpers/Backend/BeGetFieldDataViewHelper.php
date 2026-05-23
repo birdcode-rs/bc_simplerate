@@ -50,15 +50,15 @@ class BeGetFieldDataViewHelper extends AbstractViewHelper
      */
     public function getRecordValue(int $id, string $tablename, array $config): ?array
     {
-        $select = '*';
+        $selectFields = ['*'];
         $queryBuilder = $this->getQueryBuilder($tablename);
  
         if (!empty($config) && isset($config[$tablename])) {
-            $select = $config[$tablename];
+            $selectFields = GeneralUtility::trimExplode(',', $config[$tablename], true);
         }
  
         $result = $queryBuilder
-        ->select($select)  
+        ->select(...$selectFields)  
         ->from($tablename)
         ->where(
             $queryBuilder->expr()->eq(
